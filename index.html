@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>중간고사 동사 공부</title>
+    <style>
+        :root {
+            --transition-speed: 0.3s;
+            --error: #f43f5e;
+            --accent: #10b981;
+            /* Light mode fallback for Quick Look */
+            --bg-color-1: #f0fdf4;
+            --bg-color-2: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --card-border: rgba(0, 0, 0, 0.06);
+            --primary: #059669;
+            --primary-glow: rgba(5, 150, 105, 0.15);
+            --secondary: #0d9488;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --highlight: #d97706;
+            --nav-bg: rgba(0, 0, 0, 0.04);
+            --input-bg: rgba(0, 0, 0, 0.02);
+            --input-border: rgba(0, 0, 0, 0.08);
+            --shadow: rgba(0, 0, 0, 0.06);
+            --h1-from: #059669;
+            --h1-to: #0d9488;
+        }
+
+        [data-theme='dark'] {
+            --bg-color-1: #0c0a1a;
+            --bg-color-2: #1a1830;
+            --card-bg: rgba(30, 27, 56, 0.55);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary: #a78bfa;
+            --primary-glow: rgba(167, 139, 250, 0.2);
+            --secondary: #c4b5fd;
+            --text-main: #f1f5f9;
+            --text-muted: #a1a1aa;
+            --highlight: #fbbf24;
+            --nav-bg: rgba(255, 255, 255, 0.06);
+            --input-bg: rgba(255, 255, 255, 0.06);
+            --input-border: rgba(255, 255, 255, 0.1);
+            --shadow: rgba(0, 0, 0, 0.45);
+            --h1-from: #a78bfa;
+            --h1-to: #818cf8;
+        }
+
+        [data-theme='light'] {
+            --bg-color-1: #f0fdf4;
+            --bg-color-2: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --card-border: rgba(0, 0, 0, 0.06);
+            --primary: #059669;
+            --primary-glow: rgba(5, 150, 105, 0.15);
+            --secondary: #0d9488;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --highlight: #d97706;
+            --nav-bg: rgba(0, 0, 0, 0.04);
+            --input-bg: rgba(0, 0, 0, 0.02);
+            --input-border: rgba(0, 0, 0, 0.08);
+            --shadow: rgba(0, 0, 0, 0.06);
+            --h1-from: #059669;
+            --h1-to: #0d9488;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: radial-gradient(circle at top left, var(--bg-color-1, #f0fdf4), var(--bg-color-2, #f8fafc));
+            color: var(--text-main, #1e293b);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            transition: background var(--transition-speed, 0.3s), color var(--transition-speed, 0.3s);
+        }
+
+        header {
+            width: 100%;
+            padding: 2rem 1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--h1-from, #059669), var(--h1-to, #0d9488));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 2rem;
+            right: 1.5rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: var(--text-main);
+            transition: transform 0.2s;
+            box-shadow: 0 4px 10px var(--shadow);
+            z-index: 10;
+        }
+
+        .theme-toggle:active { transform: scale(0.9); }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: var(--nav-bg);
+            padding: 0.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        main {
+            width: 100%;
+            max-width: 500px;
+            padding: 0 1.5rem 3rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .container.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Flashcard Style */
+        .card-scene {
+            perspective: 1000px;
+            width: 100%;
+            height: 350px;
+            margin-bottom: 2rem;
+            cursor: pointer;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px var(--shadow);
+            backdrop-filter: blur(15px);
+            transition: background var(--transition-speed), border var(--transition-speed);
+        }
+
+        .card-face-back {
+            transform: rotateY(180deg);
+        }
+
+        .word-present {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .word-info {
+            width: 100%;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.5rem;
+        }
+
+        .info-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 1.15rem;
+        }
+
+        .meaning-value {
+            color: var(--highlight);
+            font-size: 1.2rem;
+        }
+
+        .hint-text {
+            margin-top: 1.5rem;
+            font-style: italic;
+            color: var(--text-muted);
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+
+        /* Quiz Style */
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: background var(--transition-speed);
+        }
+
+        .quiz-question {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-meaning {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--highlight);
+            margin-bottom: 0.5rem;
+        }
+
+        .quiz-hint {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .quiz-input-group {
+            position: relative;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .input-box {
+            width: 100%;
+            background: var(--input-bg);
+            border: 2px solid var(--input-border);
+            border-radius: 12px;
+            padding: 0.8rem;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            text-align: center;
+            outline: none;
+            transition: all var(--transition-speed);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .input-box.correct { border-color: var(--accent); background: rgba(16, 185, 129, 0.1); }
+        .input-box.wrong { border-color: var(--error); background: rgba(239, 68, 68, 0.1); }
+        .input-box:focus { border-color: var(--primary); }
+
+        .feedback {
+            height: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .feedback.correct { color: var(--accent); }
+        .feedback.wrong { color: var(--error); }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+        }
+
+        .btn:active { transform: scale(0.98); }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-outline { background: var(--nav-bg); color: var(--text-main); border: 1px solid var(--card-border); }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--nav-bg);
+            border-radius: 3px;
+            margin-top: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .stats {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Success Overlay */
+        #success-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color-2);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body ontouchstart="">
+    <noscript>
+        <style>
+            .theme-toggle, .nav-tabs, .controls, #quiz-container { display: none !important; }
+            .container { display: block !important; }
+            .card { transform: none !important; }
+            .card-face { position: relative !important; backface-visibility: visible !important; margin-bottom: 1rem; }
+            .card-face-back { transform: none !important; }
+        </style>
+    </noscript>
+    <header>
+        <button class="theme-toggle" id="theme-btn" aria-label="테마 전환">🌙</button>
+        <h1>중간고사 동사 공부</h1>
+        <div class="nav-tabs">
+            <button class="nav-btn active" id="btn-mode-wordbook">단어장 보기</button>
+            <button class="nav-btn" id="btn-mode-quiz">퀴즈 풀기</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Wordbook Mode -->
+        <div id="wordbook-container" class="container active">
+            <div class="card-scene" id="flashcard-scene">
+                <div class="card" id="main-card">
+                    <div class="card-face">
+                        <div class="word-present" id="w-present">make</div>
+                        <p style="margin-top: 1.5rem; color: var(--text-muted)">터치해서 뜻 보기</p>
+                    </div>
+                    <div class="card-face card-face-back">
+                        <div class="word-present" id="w-present-back" style="font-size: 2.2rem; margin-bottom: 1rem;">make</div>
+                        <div class="word-info">
+                            <div class="info-row">
+                                <span class="info-label">한국어 뜻</span>
+                                <span class="info-value meaning-value" id="w-meaning">만들다 / 시키다</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">3인칭 단수</span>
+                                <span class="info-value" id="w-singular">makes</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">과거-과거분사</span>
+                                <span class="info-value" id="w-past">made</span>
+                            </div>
+                        </div>
+                        <p class="hint-text" id="w-hint">🛠️ 무언가 만드는 에너지</p>
+                    </div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="btn btn-outline" id="btn-prev">이전</button>
+                <button class="btn btn-primary" id="btn-next">다음 단어</button>
+            </div>
+            <div class="stats">
+                <span id="w-counter">1 / 49</span>
+                <span>탭하여 뒷면 보기</span>
+            </div>
+        </div>
+
+        <!-- Quiz Mode -->
+        <div id="quiz-container" class="container">
+            <div class="quiz-card">
+                <div class="quiz-question">
+                    <p class="quiz-meaning" id="q-meaning">만들다 / 시키다</p>
+                    <p class="quiz-hint" id="q-hint">🛠️ 무언가 만드는 에너지</p>
+                </div>
+                <div class="quiz-input-group">
+                    <label class="input-label">현재형 (Present)</label>
+                    <input type="text" id="q-input-present" class="input-box" placeholder="현재형 입력..." autocomplete="off">
+                </div>
+                <div class="quiz-input-group">
+                    <label class="input-label">과거형 (Past)</label>
+                    <input type="text" id="q-input-past" class="input-box" placeholder="과거형 입력..." autocomplete="off">
+                </div>
+                <div class="quiz-input-group">
+                    <label class="input-label">과거분사형 (Past Participle)</label>
+                    <input type="text" id="q-input-pp" class="input-box" placeholder="과거분사 입력..." autocomplete="off">
+                </div>
+                <div id="q-feedback" class="feedback"></div>
+                <div class="controls">
+                    <button class="btn btn-outline" id="btn-skip">건너뛰기</button>
+                    <button class="btn btn-primary" id="btn-check">정답 확인</button>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="q-progress"></div>
+                </div>
+                <div class="stats">
+                    <span id="q-counter">문제 1 / 49</span>
+                    <span id="q-score">맞힌 개수: 0</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="success-overlay">
+        <div class="success-icon" id="result-icon">🎉</div>
+        <h2 id="result-title">축하합니다!</h2>
+        <p id="result-msg" style="margin-top: 1.5rem">모든 동사를 마스터하셨습니다!</p>
+        <p id="result-score" style="margin-top: 0.5rem; font-size: 1.2rem; color: var(--text-muted)"></p>
+        <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; justify-content: center;">
+            <button class="btn btn-outline" style="padding: 1rem 2rem; flex: none;" id="btn-retry-wrong">틀린 문제 다시 풀기</button>
+            <button class="btn btn-primary" style="padding: 1rem 2rem; flex: none;" id="btn-reset">처음부터 다시</button>
+        </div>
+    </div>
+
+    <script>
+        const verbs = [
+            {"present": "make", "singular": "makes", "past": "made", "meaning": "만들다 / 시키다", "hint": "🛠️ 무언가 만드는 에너지"},
+            {"present": "get", "singular": "gets", "past": "got - gotten", "meaning": "얻다 / 되다", "hint": "🧤 공을 잡거나 상태가 변할 때"},
+            {"present": "take", "singular": "takes", "past": "took - taken", "meaning": "가져가다 / 걸리다", "hint": "🏃‍♂️ 내 것으로 챙겨가는 느낌"},
+            {"present": "find", "singular": "finds", "past": "found", "meaning": "찾다 / 깨닫다", "hint": "🔍 놓쳤던 걸 발견할 때"},
+            {"present": "give", "singular": "gives", "past": "gave - given", "meaning": "주다", "hint": "🎁 패스하듯 건네줄 때"},
+            {"present": "see", "singular": "sees", "past": "saw - seen", "meaning": "보다 / 알게 되다", "hint": "👁️ 눈으로 확인하는 전술"},
+            {"present": "feel", "singular": "feels", "past": "felt", "meaning": "느끼다", "hint": "🌡️ 몸과 마음의 컨디션"},
+            {"present": "think", "singular": "thinks", "past": "thought", "meaning": "생각하다", "hint": "🧠 머릿속으로 그리는 전술"},
+            {"present": "know", "singular": "knows", "past": "knew - known", "meaning": "알다", "hint": "✅ 이미 내 머리에 들어있는 것"},
+            {"present": "become", "singular": "becomes", "past": "became - become", "meaning": "~이 되다", "hint": "✨ 변신! 완료된 상태"},
+            {"present": "begin", "singular": "begins", "past": "began - begun", "meaning": "시작하다", "hint": "🚀 경기의 킥오프!"},
+            {"present": "start", "singular": "starts", "past": "started", "meaning": "시작하다", "hint": "💨 힘차게 나아가는 것"},
+            {"present": "happen", "singular": "happens", "past": "happened", "meaning": "일어나다", "hint": "⚡ 사건이 빵! 터지는 것"},
+            {"present": "change", "singular": "changes", "past": "changed", "meaning": "변하다/바꾸다", "hint": "🔄 전술 변화의 타이밍"},
+            {"present": "create", "singular": "creates", "past": "created", "meaning": "만들다/창조하다", "hint": "🎨 새로운 기회를 만들 때"},
+            {"present": "go", "singular": "goes", "past": "went - gone", "meaning": "가다", "hint": "🏟️ 경기장으로 향할 때"},
+            {"present": "come", "singular": "comes", "past": "came - come", "meaning": "오다", "hint": "🏠 집으로 돌아올 때"},
+            {"present": "bring", "singular": "brings", "past": "brought", "meaning": "가져오다", "hint": "🎒 필요한 물건을 챙겨올 때"},
+            {"present": "ask", "singular": "asks", "past": "asked", "meaning": "묻다 / 요청하다", "hint": "❓ 궁금한 걸 찔러볼 때"},
+            {"present": "allow", "singular": "allows", "past": "allowed", "meaning": "허락하다", "hint": "✅ 통과시켜주는 신호"},
+            {"present": "expect", "singular": "expects", "past": "expected", "meaning": "기대 / 예상하다", "hint": "🔭 앞날을 미리 볼 때"},
+            {"present": "believe", "singular": "believes", "past": "believed", "meaning": "믿다", "hint": "🤝 든든하게 신뢰할 때"},
+            {"present": "understand", "singular": "understands", "past": "understood", "meaning": "이해하다", "hint": "💡 머릿속 전구가 켜질 때"},
+            {"present": "want", "singular": "wants", "past": "wanted", "meaning": "원하다", "hint": "🌟 마음속으로 바랄 때"},
+            {"present": "need", "singular": "needs", "past": "needed", "meaning": "필요하다", "hint": "💧 없으면 안 되는 것"},
+            {"present": "require", "singular": "requires", "past": "required", "meaning": "요구하다", "hint": "📋 조건이 필요할 때"},
+            {"present": "provide", "singular": "provides", "past": "provided", "meaning": "제공하다", "hint": "📦 필요한 걸 건네줄 때"},
+            {"present": "offer", "singular": "offers", "past": "offered", "meaning": "제공/제안하다", "hint": "🎁 기회를 줄 때"},
+            {"present": "say", "singular": "says", "past": "said", "meaning": "말하다", "hint": "🗣️ 가볍게 툭 던질 때"},
+            {"present": "tell", "singular": "tells", "past": "told", "meaning": "말하다 / 알리다", "hint": "📢 정보를 전달할 때"},
+            {"present": "show", "singular": "shows", "past": "showed - shown", "meaning": "보여주다", "hint": "🖼️ 전술판을 보여줄 때"},
+            {"present": "mean", "singular": "means", "past": "meant", "meaning": "의미하다", "hint": "🗝️ 뜻을 담고 있을 때"},
+            {"present": "help", "singular": "helps", "past": "helped", "meaning": "돕다", "hint": "🤝 2:1 패스로 도와줄 때"},
+            {"present": "look", "singular": "looks", "past": "looked", "meaning": "보다 / ~보이다", "hint": "👁️ 눈을 떼지 않을 때"},
+            {"present": "be", "singular": "is", "past": "was/were - been", "meaning": "~이다 / 있다", "hint": "🏠 경기장에 항상 존재하는 것"},
+            {"present": "do", "singular": "does", "past": "did - done", "meaning": "하다", "hint": "🏃‍♂️ 실제로 발을 뻗을 때"},
+            {"present": "have", "singular": "has", "past": "had", "meaning": "가지다 / 시키다", "hint": "🎒 내 것으로 꽉 잡고 있을 때"},
+            {"present": "hear", "singular": "hears", "past": "heard", "meaning": "듣다", "hint": "👂 관중들의 함성을 들을 때"},
+            {"present": "keep", "singular": "keeps", "past": "kept", "meaning": "유지하다", "hint": "🛡️ 공을 뺏기지 않고 지킬 때"},
+            {"present": "seem", "singular": "seems", "past": "seemed", "meaning": "~처럼 보이다", "hint": "🔭 왠지 그럴 것 같은 느낌"},
+            {"present": "choose", "singular": "chooses", "past": "chose - chosen", "meaning": "선택하다", "hint": "🎯 패스 길을 하나 고를 때"},
+            {"present": "cause", "singular": "causes", "past": "caused", "meaning": "일으키다 / 원인이 되다", "hint": "⚡ 반칙이나 기회를 만들 때"},
+            {"present": "control", "singular": "controls", "past": "controlled", "meaning": "조절하다 / 통제하다", "hint": "🎮 볼을 자유자재로 다룰 때"},
+            {"present": "deliver", "singular": "delivers", "past": "delivered", "meaning": "전달하다 / 배송하다", "hint": "🚚 정확하게 패스를 배달할 때"},
+            {"present": "demand", "singular": "demands", "past": "demanded", "meaning": "요구하다", "hint": "📢 당당하게 권리를 외칠 때"},
+            {"present": "focus", "singular": "focuses", "past": "focused", "meaning": "집중하다", "hint": "🎯 골대 하나만 뚫어져라 볼 때"},
+            {"present": "recognize", "singular": "recognizes", "past": "recognized", "meaning": "알아보다 / 인정하다", "hint": "✅ \"앗! 너 저번에 본 전술이구나!\""},
+            {"present": "assume", "singular": "assumes", "past": "assumed", "meaning": "가정하다", "hint": "🤔 \"아마 이렇게 오겠지?\" 예측할 때"},
+            {"present": "use", "singular": "uses", "past": "used", "meaning": "사용하다", "hint": "👟 장비나 기술을 쓸 때"}
+        ];
+
+        let currentWordIndex = 0;
+        let quizList = [];
+        let wrongList = [];
+        let currentQuizIndex = 0;
+        let score = 0;
+        let isProcessing = false;
+
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        // Theme management with protection
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            document.getElementById('theme-btn').textContent = theme === 'dark' ? '🌞' : '🌙';
+            try {
+                localStorage.setItem('theme', theme);
+            } catch (e) {}
+        }
+
+        function initTheme() {
+            let savedTheme = 'dark';
+            try {
+                savedTheme = localStorage.getItem('theme');
+            } catch (e) {}
+            
+            if (!savedTheme) {
+                savedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            setTheme(savedTheme);
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            setTheme(current === 'dark' ? 'light' : 'dark');
+        }
+
+        // Navigation
+        function switchMode(mode) {
+            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            if (mode === 'wordbook') {
+                document.getElementById('wordbook-container').classList.add('active');
+                document.getElementById('btn-mode-wordbook').classList.add('active');
+                updateWordbook();
+            } else {
+                document.getElementById('quiz-container').classList.add('active');
+                document.getElementById('btn-mode-quiz').classList.add('active');
+                startQuiz();
+            }
+        }
+
+        // Wordbook logic
+        function updateWordbook() {
+            const word = verbs[currentWordIndex];
+            document.getElementById('w-present').textContent = word.present;
+            document.getElementById('w-present-back').textContent = word.present;
+            document.getElementById('w-meaning').textContent = word.meaning;
+            document.getElementById('w-singular').textContent = word.singular;
+            document.getElementById('w-past').textContent = word.past;
+            document.getElementById('w-hint').textContent = word.hint;
+            document.getElementById('w-counter').textContent = `${currentWordIndex + 1} / ${verbs.length}`;
+            document.getElementById('main-card').classList.remove('is-flipped');
+        }
+
+        function flipCard() {
+            document.getElementById('main-card').classList.toggle('is-flipped');
+        }
+
+        // Quiz logic
+        function startQuiz() {
+            quizList = shuffle([...verbs]);
+            currentQuizIndex = 0;
+            score = 0;
+            wrongList = [];
+            updateQuiz();
+        }
+
+        function updateQuiz() {
+            if (currentQuizIndex >= quizList.length) {
+                showResult();
+                return;
+            }
+            const quiz = quizList[currentQuizIndex];
+            document.getElementById('q-meaning').textContent = quiz.meaning;
+            document.getElementById('q-hint').textContent = quiz.hint;
+            
+            const inputs = ['q-input-present', 'q-input-past', 'q-input-pp'];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                el.value = '';
+                el.className = 'input-box';
+            });
+            
+            document.getElementById('q-feedback').textContent = '';
+            document.getElementById('q-counter').textContent = `문제 ${currentQuizIndex + 1} / ${quizList.length}`;
+            document.getElementById('q-score').textContent = `맞힌 개수: ${score}`;
+            document.getElementById('q-progress').style.width = `${(currentQuizIndex / quizList.length) * 100}%`;
+            document.getElementById('q-input-present').focus();
+        }
+
+        function checkQuiz() {
+            if (isProcessing) return;
+            const quiz = quizList[currentQuizIndex];
+            const pastParts = quiz.past.split(' - ').map(s => s.trim().toLowerCase());
+            const ansPresent = quiz.present.toLowerCase();
+            const ansPast = pastParts[0];
+            const ansPP = pastParts.length > 1 ? pastParts[1] : pastParts[0];
+
+            const inPre = document.getElementById('q-input-present');
+            const inPas = document.getElementById('q-input-past');
+            const inPP = document.getElementById('q-input-pp');
+
+            const isPreOk = inPre.value.trim().toLowerCase() === ansPresent;
+            const isPasOk = inPas.value.trim().toLowerCase() === ansPast;
+            const isPPOk = inPP.value.trim().toLowerCase() === ansPP;
+
+            inPre.className = 'input-box ' + (isPreOk ? 'correct' : 'wrong');
+            inPas.className = 'input-box ' + (isPasOk ? 'correct' : 'wrong');
+            inPP.className = 'input-box ' + (isPPOk ? 'correct' : 'wrong');
+
+            const feedback = document.getElementById('q-feedback');
+            const correctCount = [isPreOk, isPasOk, isPPOk].filter(Boolean).length;
+
+            if (correctCount === 3) {
+                feedback.textContent = '모두 정답입니다! ✨';
+                feedback.className = 'feedback correct';
+                score++;
+                isProcessing = true;
+                setTimeout(() => {
+                    currentQuizIndex++;
+                    isProcessing = false;
+                    updateQuiz();
+                }, 1000);
+            } else {
+                if (!wrongList.includes(quiz)) wrongList.push(quiz);
+                feedback.textContent = `${correctCount}/3 맞았습니다. 다시 확인해보세요!`;
+                feedback.className = 'feedback wrong';
+            }
+        }
+
+        function showResult() {
+            const total = quizList.length;
+            const pct = Math.round((score / total) * 100);
+            const icon = document.getElementById('result-icon');
+            const title = document.getElementById('result-title');
+            const msg = document.getElementById('result-msg');
+            const scoreEl = document.getElementById('result-score');
+            const retryBtn = document.getElementById('btn-retry-wrong');
+
+            scoreEl.textContent = `${total}문제 중 ${score}개 정답 (${pct}%)`;
+
+            if (pct === 100) {
+                icon.textContent = '🎉';
+                title.textContent = '완벽합니다!';
+                msg.textContent = '모든 동사를 마스터하셨습니다!';
+                retryBtn.style.display = 'none';
+            } else if (pct >= 80) {
+                icon.textContent = '👏';
+                title.textContent = '잘했습니다!';
+                msg.textContent = '거의 다 맞았어요. 틀린 것만 복습하면 완벽!';
+                retryBtn.style.display = '';
+            } else if (pct >= 50) {
+                icon.textContent = '💪';
+                title.textContent = '조금 더 힘내세요!';
+                msg.textContent = '절반 이상 맞았어요. 틀린 문제를 다시 풀어보세요.';
+                retryBtn.style.display = '';
+            } else {
+                icon.textContent = '📖';
+                title.textContent = '복습이 필요해요';
+                msg.textContent = '단어장을 먼저 복습한 후 다시 도전해보세요!';
+                retryBtn.style.display = '';
+            }
+
+            document.getElementById('success-overlay').style.display = 'flex';
+        }
+
+        function retryWrong() {
+            if (wrongList.length === 0) return;
+            quizList = shuffle([...wrongList]);
+            currentQuizIndex = 0;
+            score = 0;
+            wrongList = [];
+            document.getElementById('quiz-container').classList.add('active');
+            updateQuiz();
+        }
+
+        // Safari compatible event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            updateWordbook();
+
+            // Click handlers
+            document.getElementById('theme-btn').addEventListener('click', toggleTheme);
+            document.getElementById('btn-mode-wordbook').addEventListener('click', () => switchMode('wordbook'));
+            document.getElementById('btn-mode-quiz').addEventListener('click', () => switchMode('quiz'));
+            document.getElementById('flashcard-scene').addEventListener('click', flipCard);
+            document.getElementById('btn-prev').addEventListener('click', () => {
+                currentWordIndex = (currentWordIndex - 1 + verbs.length) % verbs.length;
+                updateWordbook();
+            });
+            document.getElementById('btn-next').addEventListener('click', () => {
+                currentWordIndex = (currentWordIndex + 1) % verbs.length;
+                updateWordbook();
+            });
+            document.getElementById('btn-skip').addEventListener('click', () => {
+                const quiz = quizList[currentQuizIndex];
+                if (quiz && !wrongList.includes(quiz)) wrongList.push(quiz);
+                currentQuizIndex++;
+                updateQuiz();
+            });
+            document.getElementById('btn-check').addEventListener('click', checkQuiz);
+            document.getElementById('btn-reset').addEventListener('click', () => {
+                document.getElementById('success-overlay').style.display = 'none';
+                currentWordIndex = 0;
+                switchMode('wordbook');
+            });
+            document.getElementById('btn-retry-wrong').addEventListener('click', () => {
+                document.getElementById('success-overlay').style.display = 'none';
+                retryWrong();
+            });
+
+            // Input handlers for focus moving
+            document.getElementById('q-input-present').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') document.getElementById('q-input-past').focus();
+            });
+            document.getElementById('q-input-past').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') document.getElementById('q-input-pp').focus();
+            });
+            document.getElementById('q-input-pp').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') checkQuiz();
+            });
+        });
+    </script>
+</body>
+</html>
