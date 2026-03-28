@@ -388,15 +388,42 @@
             z-index: 100;
             display: none;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             text-align: center;
             padding: 2rem;
+            overflow-y: auto;
         }
 
         .success-icon {
             font-size: 5rem;
             margin-bottom: 1rem;
+        }
+
+        .wrong-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            text-align: left;
+            backdrop-filter: blur(10px);
+        }
+
+        .wrong-card-word {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .wrong-card-meaning {
+            font-size: 1rem;
+            color: var(--highlight);
+            margin-bottom: 0.3rem;
+        }
+
+        .wrong-card-forms {
+            font-size: 0.85rem;
+            color: var(--text-muted);
         }
     </style>
 </head>
@@ -498,9 +525,13 @@
         <h2 id="result-title">축하합니다!</h2>
         <p id="result-msg" style="margin-top: 1.5rem">모든 동사를 마스터하셨습니다!</p>
         <p id="result-score" style="margin-top: 0.5rem; font-size: 1.2rem; color: var(--text-muted)"></p>
-        <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; justify-content: center;">
-            <button class="btn btn-outline" style="padding: 1rem 2rem; flex: none;" id="btn-retry-wrong">틀린 문제 다시 풀기</button>
-            <button class="btn btn-primary" style="padding: 1rem 2rem; flex: none;" id="btn-reset">처음부터 다시</button>
+        <div style="display: flex; gap: 0.8rem; margin-top: 2rem; flex-wrap: wrap; justify-content: center;">
+            <button class="btn btn-outline" style="padding: 0.8rem 1.5rem; flex: none;" id="btn-show-wrong">틀린 단어 확인</button>
+            <button class="btn btn-outline" style="padding: 0.8rem 1.5rem; flex: none;" id="btn-retry-wrong">틀린 문제 다시 풀기</button>
+            <button class="btn btn-primary" style="padding: 0.8rem 1.5rem; flex: none;" id="btn-reset">처음부터 다시</button>
+        </div>
+        <div id="wrong-list-container" style="display: none; width: 100%; max-width: 460px; margin-top: 1.5rem; max-height: 50vh; overflow-y: auto;">
+            <div id="wrong-list" style="display: flex; flex-direction: column; gap: 0.6rem;"></div>
         </div>
     </div>
 
@@ -707,29 +738,50 @@
             const msg = document.getElementById('result-msg');
             const scoreEl = document.getElementById('result-score');
             const retryBtn = document.getElementById('btn-retry-wrong');
+            const showWrongBtn = document.getElementById('btn-show-wrong');
+            const wrongContainer = document.getElementById('wrong-list-container');
 
             scoreEl.textContent = `${total}문제 중 ${score}개 정답 (${pct}%)`;
+            wrongContainer.style.display = 'none';
+
+            // 틀린 단어 목록 생성
+            const wrongListEl = document.getElementById('wrong-list');
+            wrongListEl.innerHTML = '';
+            wrongList.forEach(v => {
+                const card = document.createElement('div');
+                card.className = 'wrong-card';
+                card.innerHTML = `
+                    <div class="wrong-card-word">${v.present}</div>
+                    <div class="wrong-card-meaning">${v.meaning}</div>
+                    <div class="wrong-card-forms">${v.singular} · ${v.past}</div>
+                `;
+                wrongListEl.appendChild(card);
+            });
 
             if (pct === 100) {
                 icon.textContent = '🎉';
                 title.textContent = '완벽합니다!';
                 msg.textContent = '모든 동사를 마스터하셨습니다!';
                 retryBtn.style.display = 'none';
+                showWrongBtn.style.display = 'none';
             } else if (pct >= 80) {
                 icon.textContent = '👏';
                 title.textContent = '잘했습니다!';
                 msg.textContent = '거의 다 맞았어요. 틀린 것만 복습하면 완벽!';
                 retryBtn.style.display = '';
+                showWrongBtn.style.display = '';
             } else if (pct >= 50) {
                 icon.textContent = '💪';
                 title.textContent = '조금 더 힘내세요!';
                 msg.textContent = '절반 이상 맞았어요. 틀린 문제를 다시 풀어보세요.';
                 retryBtn.style.display = '';
+                showWrongBtn.style.display = '';
             } else {
                 icon.textContent = '📖';
                 title.textContent = '복습이 필요해요';
                 msg.textContent = '단어장을 먼저 복습한 후 다시 도전해보세요!';
                 retryBtn.style.display = '';
+                showWrongBtn.style.display = '';
             }
 
             document.getElementById('success-overlay').style.display = 'flex';
@@ -778,6 +830,10 @@
             document.getElementById('btn-retry-wrong').addEventListener('click', () => {
                 document.getElementById('success-overlay').style.display = 'none';
                 retryWrong();
+            });
+            document.getElementById('btn-show-wrong').addEventListener('click', () => {
+                const container = document.getElementById('wrong-list-container');
+                container.style.display = container.style.display === 'none' ? 'block' : 'none';
             });
 
             // Input handlers for focus moving
