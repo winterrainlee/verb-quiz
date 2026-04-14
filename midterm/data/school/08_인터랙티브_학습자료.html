@@ -25,6 +25,11 @@
       box-sizing: border-box;
     }
 
+    html, body, button, a, div, p, h1, h2, h3, span, strong, li {
+      word-break: keep-all;
+      overflow-wrap: normal;
+    }
+
     body {
       margin: 0;
       font-family: "Pretendard", "Apple SD Gothic Neo", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -90,6 +95,26 @@
       height: 120px;
       background: rgba(255, 255, 255, 0.12);
       border-radius: 50%;
+    }
+
+    .home-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 18px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: white;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 18px rgba(90, 40, 15, 0.16);
     }
 
     .eyebrow {
@@ -306,6 +331,121 @@
       gap: 6px;
     }
 
+    .bonus-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .wordbook-group {
+      margin-bottom: 18px;
+    }
+
+    .wordbook-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .wordbook-group h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: var(--brand);
+    }
+
+    .wordbook-item {
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .wordbook-item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .wordbook-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .wordbook-toggle {
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .wordbook-head strong {
+      font-size: 15px;
+    }
+
+    .wordbook-head span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .wordbook-item .bonus-meaning {
+      display: none;
+    }
+
+    .wordbook-item.open .bonus-meaning {
+      display: block;
+    }
+
+    .bonus-item {
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .bonus-item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .bonus-word {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      color: var(--brand);
+    }
+
+    .bonus-meaning {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .bonus-memo {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .jump-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .jump-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 12px 10px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--brand-2);
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+    }
+
     .tag {
       font-size: 11px;
       padding: 7px 10px;
@@ -468,6 +608,27 @@
       display: block;
     }
 
+    .section-anchor {
+      scroll-margin-top: 18px;
+    }
+
+    .top-wrap {
+      margin-top: 14px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .top-btn {
+      padding: 11px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.84);
+      color: var(--brand-2);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
     .quiz-header {
       display: flex;
       align-items: center;
@@ -600,6 +761,7 @@
   <div class="phone">
     <div class="app">
       <section class="hero">
+        <a class="home-btn" href="../../../index.html" aria-label="홈으로">⌂</a>
         <div class="eyebrow">Midterm English</div>
         <h1 id="hero-title">1회차 경제</h1>
         <p id="hero-desc">쉬운 단어에서 시험 단어로 올라가면서, 수업과 퀴즈를 나눠서 공부하는 학습지.</p>
@@ -624,7 +786,7 @@
         id: "lesson1",
         short: "1회차",
         title: "경제",
-        hero: "욕구 -> 선택 -> 비용 -> 결과 구조로 경제 지문을 읽는 회차",
+        hero: "욕구 -> 선택 -> 비용 -> 결과 구조로 경제 지문 읽기",
         targets: ["04-Analysis", "05-Analysis", "05-연습 04", "07-연습 03"],
         steps: [
           {
@@ -632,7 +794,8 @@
             bullets: [
               "want / need에서 출발해 더 강한 마음인 desire로 올라간다.",
               "좋아 보이는 수준을 넘어 valuable이라는 평가로 이동한다.",
-              "사고 싶은 마음과 살 수 있는 능력 afford를 연결한다."
+              "사고 싶은 마음과 살 수 있는 능력 afford를 연결한다.",
+              "여러 선택지 중 무엇이 더 나은지 preferable로 비교한다."
             ],
             focus: "desire, valuable, afford, preferable"
           },
@@ -641,15 +804,16 @@
             bullets: [
               "단순히 얻는 것이 아니라 purchase라는 경제 행동으로 읽는다.",
               "have를 possess로 끌어올려 지문 표현에 익숙해진다.",
-              "선택지 중 더 나은 쪽을 preferable로 구분한다."
+              "그 행동을 가능하게 하는 수단을 means로 연결한다."
             ],
-            focus: "purchase, possess, preferable, means"
+            focus: "purchase, possess, means"
           },
           {
             title: "price에서 consequence로",
             bullets: [
               "비용은 단순한 price가 아니라 burden과 monetary pressure로 확장된다.",
-              "경제 선택은 항상 consequence를 남긴다."
+              "경제 선택은 항상 consequence를 남긴다.",
+              "그 결과가 클수록 costly하다는 말이 붙는다."
             ],
             focus: "burden, monetary, consequence, costly"
           },
@@ -658,7 +822,8 @@
             bullets: [
               "wage를 통해 경제 활동의 기본 구조를 잡는다.",
               "innovation, device, virtual 같은 변화 단어를 읽는다.",
-              "장단점을 비교하는 문장에서는 outweigh를 찾는다."
+              "장단점을 비교하는 문장에서는 outweigh를 찾는다.",
+              "선택의 분명한 목표는 objective로 읽는다."
             ],
             focus: "wage, innovation, device, outweigh, objective"
           }
@@ -705,7 +870,13 @@
             ]
           }
         ],
-        bonus: ["Proceeds", "Acquire", "Commodity", "Investment", "Bankruptcy"],
+        bonus: [
+          ["Proceeds", "수익금", "팔고 난 뒤 남는 돈이다."],
+          ["Acquire", "획득하다", "get보다 더 격식 있는 표현이다."],
+          ["Commodity", "상품", "시장에서 거래되는 물건이다."],
+          ["Investment", "투자", "지금 넣고 나중에 더 얻으려는 행동이다."],
+          ["Bankruptcy", "파산", "경제 지문에서 실패의 극단적 결과다."]
+        ],
         sentences: [
           ["desire, valuable", "People often confuse a simple need with a deeper desire, especially when an item looks highly valuable.", "사람들은 물건이 매우 가치 있어 보일 때 단순한 필요와 더 깊은 욕망을 자주 혼동한다."],
           ["afford, purchase", "Even when consumers want a product, they may delay the purchase because they cannot afford it right away.", "소비자들은 어떤 물건을 원해도 바로 그것을 살 여유가 없어서 구매를 미룰 수 있다."],
@@ -735,7 +906,7 @@
         id: "lesson2",
         short: "2회차",
         title: "심리·사회",
-        hero: "생각, 감정, 관계, 구조를 읽는 기본 프레임을 만드는 회차",
+        hero: "생각, 감정, 관계, 구조를 읽는 기본 프레임 만들기",
         targets: ["04-연습 11", "05-연습 09", "07-Analysis", "07-연습 07", "07-연습 08"],
         steps: [
           {
@@ -743,7 +914,8 @@
             bullets: [
               "생각이 모여 viewpoint가 된다.",
               "하지만 생각은 bias 때문에 기울어질 수 있다.",
-              "독해에서는 neutral하게 읽으려는 태도가 중요하다."
+              "독해에서는 neutral하게 읽으려는 태도가 중요하다.",
+              "서로 다른 입장을 distinct하게 구분하는 힘도 필요하다."
             ],
             focus: "viewpoint, bias, neutral, distinct"
           },
@@ -751,7 +923,8 @@
             title: "feel에서 emotional로",
             bullets: [
               "감정은 emotional 상태로 드러난다.",
-              "태도 attitude와 반복되는 tendency로 연결된다."
+              "태도 attitude와 반복되는 tendency로 연결된다.",
+              "그래서 어떤 판단을 suspect하게 되는 경우도 생긴다."
             ],
             focus: "emotional, attitude, tendency, suspect"
           },
@@ -816,7 +989,13 @@
             ]
           }
         ],
-        bonus: ["Impartiality", "Criticism", "Status", "Appropriate", "Detachment"],
+        bonus: [
+          ["Impartiality", "공정성, 치우치지 않음", "neutral의 심화 버전이다."],
+          ["Criticism", "비판", "문제점을 지적하는 말이다."],
+          ["Status", "지위, 상태", "hierarchy와 자주 연결된다."],
+          ["Appropriate", "적절한", "상황에 맞는지 판단할 때 쓴다."],
+          ["Detachment", "거리 둠, 감정적 분리", "지나치게 감정적이지 않은 상태다."]
+        ],
         sentences: [
           ["viewpoint, bias", "A person's viewpoint may look reasonable at first, but hidden bias can still shape the conclusion.", "한 사람의 관점은 처음에는 타당해 보여도, 숨겨진 편향이 여전히 결론을 좌우할 수 있다."],
           ["neutral, distinct", "Good readers try to stay neutral and make a distinct separation between fact and opinion.", "좋은 독자는 중립적인 태도를 유지하며 사실과 의견을 분명히 구분하려 한다."],
@@ -846,14 +1025,15 @@
         id: "lesson3",
         short: "3회차",
         title: "심리",
-        hero: "감정 -> 판단 -> 행동 흐름으로 심리 지문을 읽는 집중 회차",
+        hero: "감정 -> 판단 -> 행동 흐름으로 심리 지문 읽기",
         targets: ["04-연습 01", "05-연습 07", "05-연습 11", "06-Analysis", "06-연습 07", "07-연습 01", "07-연습 05"],
         steps: [
           {
             title: "feel에서 empathy로",
             bullets: [
               "다른 사람 감정을 함께 느끼는 empathy를 익힌다.",
-              "마음 상태를 mental로, 너무 강한 상태를 overwhelm으로 읽는다."
+              "마음 상태를 mental로, 너무 강한 상태를 overwhelm으로 읽는다.",
+              "강한 감정을 줄여 주는 쪽은 relieve로 연결한다."
             ],
             focus: "empathy, mental, overwhelm, relieve"
           },
@@ -869,7 +1049,8 @@
             title: "know에서 familiarity로",
             bullets: [
               "자주 봐서 익숙해진 상태가 familiarity다.",
-              "기억을 끄집어내는 recollect, 뜻을 해석하는 interpret를 함께 본다."
+              "기억을 끄집어내는 recollect, 뜻을 해석하는 interpret를 함께 본다.",
+              "익숙함 속에서 숨은 신호를 detect하는 감각도 잡는다."
             ],
             focus: "familiarity, recollect, interpret, detect"
           },
@@ -924,7 +1105,13 @@
             ]
           }
         ],
-        bonus: ["Induce", "Imprint", "Distortion", "Subtlety", "Validation"],
+        bonus: [
+          ["Induce", "유발하다", "trigger보다 더 딱딱한 표현이다."],
+          ["Imprint", "깊이 새기다", "기억에 강하게 남는 느낌이다."],
+          ["Distortion", "왜곡", "정확하지 않게 비틀린 상태다."],
+          ["Subtlety", "미묘함", "바로 보이지 않는 작은 차이다."],
+          ["Validation", "인정, 타당화", "내 감정이나 생각이 맞다고 확인받는 것이다."]
+        ],
         sentences: [
           ["empathy, mental", "True empathy requires not only kindness but also the mental ability to understand another person's situation.", "진정한 공감은 친절함뿐 아니라 다른 사람의 상황을 이해하는 정신적 능력도 필요로 한다."],
           ["overwhelm, relieve", "Too much information can overwhelm students, so teachers should break tasks into smaller parts to relieve stress.", "정보가 너무 많으면 학생들을 압도할 수 있으므로 교사는 과제를 더 작은 부분으로 나누어 스트레스를 완화해야 한다."],
@@ -954,14 +1141,15 @@
         id: "lesson4",
         short: "4회차",
         title: "사회·인문",
-        hero: "가치판단, 제도, 언어, 공공성을 문과형 지문 프레임으로 읽는 회차",
+        hero: "가치판단, 제도, 언어, 공공성을 문과형 지문 프레임으로 읽기",
         targets: ["04-연습 03", "04-연습 09", "06-연습 09", "07-연습 09", "07-연습 11", "07-연습 12"],
         steps: [
           {
             title: "right에서 virtue로",
             bullets: [
               "옳고 그름을 virtue와 ethical로 끌어올린다.",
-              "개인 감정과 가치 판단을 distinct하게 구분한다."
+              "개인 감정과 가치 판단을 distinct하게 구분한다.",
+              "그 판단이 비판 criticism으로 이어질 수 있다."
             ],
             focus: "virtue, ethical, criticism, distinct"
           },
@@ -969,7 +1157,8 @@
             title: "say에서 discourse로",
             bullets: [
               "단순한 말하기를 discourse라는 사회적 논의로 읽는다.",
-              "주장과 예시는 represent와 framework로 구조화된다."
+              "주장과 예시는 represent와 framework로 구조화된다.",
+              "그 구조를 따라가며 글 전체 comprehension을 만든다."
             ],
             focus: "discourse, represent, framework, comprehension"
           },
@@ -1032,7 +1221,13 @@
             ]
           }
         ],
-        bonus: ["Pose", "Formulate", "Consensus", "Derive", "Comprehension"],
+        bonus: [
+          ["Pose", "제기하다", "문제를 던질 때 자주 쓴다."],
+          ["Formulate", "공식화하다, 정리하다", "생각을 문장이나 원칙으로 만드는 것이다."],
+          ["Consensus", "합의", "여러 사람이 비슷하게 동의한 상태다."],
+          ["Derive", "이끌어 내다", "어떤 원리나 결론이 어디서 나왔는지 보여 준다."],
+          ["Comprehension", "이해", "글 전체 뜻을 파악하는 능력이다."]
+        ],
         sentences: [
           ["virtue, ethical", "Aristotle argued that virtue is not a single act but a habit of making ethical choices.", "아리스토텔레스는 미덕이 한 번의 행동이 아니라 윤리적 선택을 하는 습관이라고 주장했다."],
           ["criticism, distinct", "Public criticism becomes more useful when people make a distinct distinction between personal dislike and moral judgment.", "대중의 비판은 사람들이 개인적 비호감과 도덕적 판단을 분명히 구분할 때 더 유용해진다."],
@@ -1064,44 +1259,116 @@
     let currentPanel = "lesson";
     const quizSelections = {};
     const flashState = {};
+    const WORDBOOK_INDEX = 4;
 
     const lessonTabs = document.getElementById("lesson-tabs");
     const lessonPanel = document.getElementById("lesson-panel");
     const quizPanel = document.getElementById("quiz-panel");
     const heroTitle = document.getElementById("hero-title");
     const heroDesc = document.getElementById("hero-desc");
+    const segment = document.querySelector(".segment");
 
     function renderLessonTabs() {
-      lessonTabs.innerHTML = lessons.map((lesson, index) => `
+      const navItems = [...lessons.map(lesson => ({ short: lesson.short })), { short: "단어장" }];
+      lessonTabs.innerHTML = navItems.map((item, index) => `
         <button class="chip ${index === currentLessonIndex ? "active" : ""}" data-index="${index}">
-          <strong>${lesson.short}</strong>
+          <strong>${item.short}</strong>
         </button>
       `).join("");
     }
 
+    function buildWordbookEntries() {
+      const seen = new Map();
+      lessons.forEach((lesson, lessonIndex) => {
+        lesson.vocabGroups.forEach(group => {
+          group.items.forEach(item => {
+            const key = item[0].toLowerCase();
+            if (!seen.has(key)) {
+              seen.set(key, {
+                word: item[0],
+                meaning: item[1],
+                memo: item[2],
+                source: `${lesson.short} · 핵심`
+              });
+            }
+          });
+        });
+
+        lesson.bonus.forEach(item => {
+          const key = item[0].toLowerCase();
+          if (!seen.has(key)) {
+            seen.set(key, {
+              word: item[0],
+              meaning: item[1],
+              memo: item[2],
+              source: `${lesson.short} · 보너스`
+            });
+          }
+        });
+      });
+      return Array.from(seen.values()).sort((a, b) => a.word.localeCompare(b.word));
+    }
+
+    function renderWordbookPanel() {
+      const entries = buildWordbookEntries();
+      heroTitle.textContent = "단어장";
+      heroDesc.textContent = "1회차부터 4회차까지 나온 단어를 한곳에서 모아 보는 복습 페이지.";
+      lessonPanel.innerHTML = `
+        <section class="card section-anchor" id="jump">
+          <h2>전체 단어 모음</h2>
+          <p class="sub">모든 회차의 핵심 단어와 보너스 단어를 알파벳 순서로 정리했다. 처음에는 영단어와 힌트만 보고, 단어를 누를 때만 뜻을 확인하면 된다.</p>
+          <div class="tags">
+            <span class="tag">총 ${entries.length}개</span>
+            <span class="tag">1회차~4회차 통합</span>
+          </div>
+        </section>
+        <section class="card section-anchor" id="wordbook-list">
+          <h2>단어 목록</h2>
+          <p class="sub">영단어와 힌트만 먼저 보고 뜻을 떠올린 뒤, 단어를 눌러 뜻을 펼쳐서 확인한다. 다시 누르면 뜻이 다시 숨겨진다.</p>
+          <div class="wordbook-group">
+            ${entries.map(entry => `
+              <div class="wordbook-item">
+                <button class="wordbook-toggle">
+                  <div class="wordbook-head">
+                    <strong>${entry.word}</strong>
+                    <span>${entry.source}</span>
+                  </div>
+                  <div class="bonus-memo">${entry.memo}</div>
+                </button>
+                <div class="bonus-meaning">${entry.meaning}</div>
+              </div>
+            `).join("")}
+          </div>
+          <div class="top-wrap">
+            <button class="top-btn" data-jump="jump">맨 위로 (Top)</button>
+          </div>
+        </section>
+      `;
+    }
+
     function renderLessonPanel() {
+      if (currentLessonIndex === WORDBOOK_INDEX) {
+        renderWordbookPanel();
+        return;
+      }
       const lesson = lessons[currentLessonIndex];
       heroTitle.textContent = `${lesson.short} ${lesson.title}`;
       heroDesc.textContent = lesson.hero;
 
       lessonPanel.innerHTML = `
-        <section class="card">
-          <h2>이번 시간 목표</h2>
-          <p class="sub">${lesson.title} 관련 지문에서 자주 보이는 흐름을 먼저 익히고, 쉬운 단어에서 시험 단어로 연결해서 읽는 연습을 한다.</p>
-          <div class="tags">${lesson.targets.map(target => `<span class="tag">${target}</span>`).join("")}</div>
+        <section class="card section-anchor" id="jump">
+          <h2>바로 이동</h2>
+          <p class="sub">보고 싶은 영역으로 바로 이동해서 공부하면 된다.</p>
+          <div class="jump-grid">
+            <button class="jump-btn" data-jump="flashcards">단어 카드</button>
+            <button class="jump-btn" data-jump="core-vocab">핵심 단어</button>
+            <button class="jump-btn" data-jump="mechanism">단어 확장 메커니즘</button>
+            <button class="jump-btn" data-jump="bonus">보너스 단어</button>
+            <button class="jump-btn" data-jump="reading">독해</button>
+            <button class="jump-btn" data-jump-panel="quiz">퀴즈</button>
+          </div>
         </section>
-        <section class="card">
-          <h2>단어 확장 메커니즘</h2>
-          ${lesson.steps.map((step, idx) => `
-            <article class="step">
-              <div class="step-index">${idx + 1}</div>
-              <h3>${step.title}</h3>
-              <ul>${step.bullets.map(line => `<li>${line}</li>`).join("")}</ul>
-              <div class="focus">핵심 단어: ${step.focus}</div>
-            </article>
-          `).join("")}
-        </section>
-        <section class="card">
+        <section class="card section-anchor" id="flashcards">
           <h2>단어 카드</h2>
           <p class="sub">카드를 눌러 뜻과 메모를 확인하고, 이전/다음으로 넘기면서 반복한다.</p>
           <div class="flashcard" id="flashcard">
@@ -1121,8 +1388,11 @@
             <button class="flash-btn" id="flash-flip">뒤집기</button>
             <button class="flash-btn" id="flash-next">다음</button>
           </div>
+          <div class="top-wrap">
+            <button class="top-btn" data-jump="jump">맨 위로 (Top)</button>
+          </div>
         </section>
-        <section class="card">
+        <section class="card section-anchor" id="core-vocab">
           <h2>핵심 단어</h2>
           <p class="sub">이번 회차 핵심 단어 20개를 4묶음으로 나눠서 익힌다.</p>
           ${lesson.vocabGroups.map(group => `
@@ -1140,12 +1410,40 @@
               `).join("")}
             </div>
           `).join("")}
+          <div class="top-wrap">
+            <button class="top-btn" data-jump="jump">맨 위로 (Top)</button>
+          </div>
         </section>
-        <section class="card">
+        <section class="card section-anchor" id="mechanism">
+          <h2>단어 확장 메커니즘</h2>
+          ${lesson.steps.map((step, idx) => `
+            <article class="step">
+              <div class="step-index">${idx + 1}</div>
+              <h3>${step.title}</h3>
+              <ul>${step.bullets.map(line => `<li>${line}</li>`).join("")}</ul>
+              <div class="focus">핵심 단어: ${step.focus}</div>
+            </article>
+          `).join("")}
+          <div class="top-wrap">
+            <button class="top-btn" data-jump="jump">맨 위로 (Top)</button>
+          </div>
+        </section>
+        <section class="card section-anchor" id="bonus">
           <h2>보너스 단어 5개</h2>
-          <div class="tags">${lesson.bonus.map(word => `<span class="tag">${word}</span>`).join("")}</div>
+          <div class="bonus-list">
+            ${lesson.bonus.map(item => `
+              <div class="bonus-item">
+                <div class="bonus-word">${item[0]}</div>
+                <div class="bonus-meaning">${item[1]}</div>
+                <div class="bonus-memo">${item[2]}</div>
+              </div>
+            `).join("")}
+          </div>
+          <div class="top-wrap">
+            <button class="top-btn" data-jump="jump">맨 위로 (Top)</button>
+          </div>
         </section>
-        <section class="card">
+        <section class="card section-anchor" id="reading">
           <h2>독해 10문장</h2>
           <p class="sub">영어 문장을 먼저 읽고 뜻을 생각한 뒤, 필요할 때만 해석을 확인한다.</p>
           ${lesson.sentences.map((sentence, idx) => `
@@ -1158,15 +1456,27 @@
               <div class="korean">${sentence[2]}</div>
             </article>
           `).join("")}
+          <div class="top-wrap">
+            <button class="top-btn" data-jump="jump">맨 위로 (Top)</button>
+          </div>
         </section>
       `;
     }
 
     function getQuizKey() {
+      if (currentLessonIndex === WORDBOOK_INDEX) return "wordbook";
       return lessons[currentLessonIndex].id;
     }
 
     function ensureQuizState() {
+      if (currentLessonIndex === WORDBOOK_INDEX) {
+        return {
+          answers: [],
+          checked: false,
+          wrongIndexes: [],
+          mode: "all"
+        };
+      }
       const key = getQuizKey();
       if (!quizSelections[key]) {
         quizSelections[key] = {
@@ -1180,6 +1490,9 @@
     }
 
     function ensureFlashState() {
+      if (currentLessonIndex === WORDBOOK_INDEX) {
+        return { index: 0, flipped: false };
+      }
       const key = getQuizKey();
       if (!flashState[key]) {
         flashState[key] = { index: 0, flipped: false };
@@ -1199,6 +1512,7 @@
     }
 
     function renderFlashcard() {
+      if (currentLessonIndex === WORDBOOK_INDEX) return;
       const lesson = lessons[currentLessonIndex];
       const vocab = getFlatVocab(lesson);
       const state = ensureFlashState();
@@ -1213,6 +1527,15 @@
     }
 
     function renderQuizPanel() {
+      if (currentLessonIndex === WORDBOOK_INDEX) {
+        quizPanel.innerHTML = `
+          <section class="card">
+            <h2>단어장에서는 퀴즈가 없어요</h2>
+            <p class="sub">위의 단어 목록을 보면서 전체 단어를 빠르게 복습하면 된다.</p>
+          </section>
+        `;
+        return;
+      }
       const lesson = lessons[currentLessonIndex];
       const state = ensureQuizState();
       const activeItems = state.mode === "wrongOnly" && state.wrongIndexes.length
@@ -1261,6 +1584,9 @@
           <button class="action secondary" id="retry-wrong" ${state.checked && state.wrongIndexes.length ? "" : "disabled"}>오답만 다시</button>
           <button class="action primary" id="check-quiz">${state.checked ? "채점 완료" : "채점하기"}</button>
         </div>
+        <div class="top-wrap">
+          <button class="top-btn" id="quiz-top">맨 위로 (Top)</button>
+        </div>
       `;
     }
 
@@ -1269,6 +1595,7 @@
       renderLessonPanel();
       renderQuizPanel();
       renderFlashcard();
+      segment.style.display = currentLessonIndex === WORDBOOK_INDEX ? "none" : "flex";
       document.querySelectorAll(".panel").forEach(panel => panel.classList.remove("active"));
       document.getElementById(`${currentPanel}-panel`).classList.add("active");
       document.querySelectorAll(".segment button").forEach(button => {
@@ -1299,11 +1626,36 @@
         return;
       }
 
+      const wordbookToggle = event.target.closest(".wordbook-toggle");
+      if (wordbookToggle) {
+        wordbookToggle.closest(".wordbook-item").classList.toggle("open");
+        return;
+      }
+
       const flashcard = event.target.closest("#flashcard");
       const prev = event.target.closest("#flash-prev");
       const next = event.target.closest("#flash-next");
       const flip = event.target.closest("#flash-flip");
+      const jumpButton = event.target.closest("[data-jump]");
+      const jumpPanelButton = event.target.closest("[data-jump-panel]");
       const state = ensureFlashState();
+
+      if (jumpPanelButton) {
+        currentPanel = jumpPanelButton.dataset.jumpPanel;
+        renderAll();
+        return;
+      }
+
+      if (jumpButton) {
+        const target = document.getElementById(jumpButton.dataset.jump);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        return;
+      }
+
+      if (currentLessonIndex === WORDBOOK_INDEX) return;
+
       const vocab = getFlatVocab(lessons[currentLessonIndex]);
 
       if (flashcard || flip) {
@@ -1331,8 +1683,14 @@
       const resetButton = event.target.closest("#reset-quiz");
       const checkButton = event.target.closest("#check-quiz");
       const retryWrongButton = event.target.closest("#retry-wrong");
+      const quizTopButton = event.target.closest("#quiz-top");
       const state = ensureQuizState();
       const lesson = lessons[currentLessonIndex];
+
+      if (quizTopButton) {
+        quizPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
 
       if (option && !state.checked) {
         const qIndex = Number(option.dataset.q);

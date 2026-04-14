@@ -8,7 +8,7 @@
     :root {
       --bg-top: #f4dfb8;
       --bg-bottom: #f7f2ea;
-      --card: rgba(255, 252, 246, 0.9);
+      --card: rgba(255, 252, 246, 0.92);
       --line: rgba(70, 48, 18, 0.08);
       --ink: #1f1a15;
       --muted: #6d655c;
@@ -18,8 +18,11 @@
       --shadow: 0 28px 70px rgba(88, 55, 14, 0.18);
     }
 
-    * {
-      box-sizing: border-box;
+    * { box-sizing: border-box; }
+
+    html, body, button, a, div, p, h1, h2, h3, span, strong {
+      word-break: keep-all;
+      overflow-wrap: normal;
     }
 
     body {
@@ -61,12 +64,7 @@
 
     .screen {
       min-height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 56px 24px 28px;
-      text-align: center;
+      padding: 56px 18px 28px;
       position: relative;
     }
 
@@ -94,20 +92,23 @@
       left: -46px;
     }
 
+    .hero {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
     .app-icon {
       width: 124px;
       height: 124px;
       border-radius: 30px;
-      background:
-        linear-gradient(135deg, #d36c42 0%, #ea9f3a 55%, #f0cf79 100%);
-      box-shadow:
-        0 24px 45px rgba(196, 91, 53, 0.28),
-        inset 0 1px 0 rgba(255,255,255,0.45);
+      background: linear-gradient(135deg, #d36c42 0%, #ea9f3a 55%, #f0cf79 100%);
+      box-shadow: 0 24px 45px rgba(196, 91, 53, 0.28), inset 0 1px 0 rgba(255,255,255,0.45);
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      margin-bottom: 28px;
+      margin: 0 auto 24px;
     }
 
     .app-icon::before {
@@ -119,51 +120,43 @@
       transform: translateY(-2px);
     }
 
-    .app-icon::after {
-      content: "";
-      position: absolute;
-      width: 42px;
-      height: 42px;
-      right: 12px;
-      bottom: 12px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.25);
-    }
-
     .eyebrow {
       font-size: 12px;
       font-weight: 800;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
+    h1, h2, h3, p { margin: 0; }
+
     h1 {
-      margin: 0 0 10px;
       font-size: 34px;
       line-height: 1.14;
       letter-spacing: -0.04em;
+      margin-bottom: 10px;
     }
 
-    p {
-      margin: 0;
+    .hero p {
       color: var(--muted);
       font-size: 15px;
       line-height: 1.65;
-      max-width: 280px;
+      max-width: 290px;
+      margin: 0 auto;
     }
 
     .card {
       width: 100%;
-      margin-top: 28px;
+      margin-top: 22px;
       padding: 18px;
       border-radius: 24px;
       background: var(--card);
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
       text-align: left;
+      position: relative;
+      z-index: 1;
     }
 
     .card-label {
@@ -187,42 +180,925 @@
       color: var(--muted);
     }
 
-    .start-btn {
+    .mode-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mode-btn,
+    .start-link,
+    .day-btn,
+    .home-btn {
+      border: 0;
+      cursor: pointer;
+      text-decoration: none;
+      font: inherit;
+    }
+
+    .mode-btn,
+    .start-link {
       width: 100%;
-      margin-top: 16px;
       display: inline-flex;
       justify-content: center;
       align-items: center;
       padding: 17px 18px;
       border-radius: 20px;
-      text-decoration: none;
       font-weight: 800;
       font-size: 16px;
+    }
+
+    .start-link {
       color: white;
       background: linear-gradient(135deg, var(--brand-deep), var(--brand));
       box-shadow: 0 16px 32px rgba(196, 91, 53, 0.24);
+      margin-top: 16px;
     }
 
-    .start-btn:active {
-      transform: translateY(1px);
+    .mode-btn {
+      background: rgba(255,255,255,0.86);
+      color: var(--accent);
+      border: 1px solid var(--line);
+    }
+
+    .panel {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel.active {
+      display: flex;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 2px;
+    }
+
+    .topbar h2 {
+      font-size: 24px;
+      letter-spacing: -0.03em;
+    }
+
+    .topbar p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      margin-top: 6px;
+    }
+
+    .home-btn {
+      flex: 0 0 auto;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.88);
+      color: var(--brand);
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 18px rgba(90, 40, 15, 0.12);
+    }
+
+    .day-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .day-btn {
+      padding: 11px 8px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.84);
+      color: var(--muted);
+      border: 1px solid var(--line);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .day-btn.active {
+      background: linear-gradient(135deg, var(--brand), #df8e2c);
+      color: white;
+      box-shadow: 0 10px 20px rgba(196, 91, 53, 0.18);
+    }
+
+    .wordbook-item {
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .wordbook-item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .wordbook-toggle {
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .word-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .word-head strong {
+      font-size: 15px;
+      color: var(--ink);
+    }
+
+    .word-head span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .meaning {
+      display: none;
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--brand);
+    }
+
+    .wordbook-item.open .meaning {
+      display: block;
     }
   </style>
 </head>
 <body>
   <main class="phone">
     <section class="screen">
-      <div class="app-icon" aria-hidden="true"></div>
-      <div class="eyebrow">English Study</div>
-      <h1>중간고사 영어</h1>
-      <p>4회차 단어 수업과 퀴즈를 한 화면에서 이어서 공부할 수 있어.</p>
+      <section class="panel active" id="home-panel">
+        <div class="hero">
+          <div class="app-icon" aria-hidden="true"></div>
+          <div class="eyebrow">English Study</div>
+          <h1>중간고사 영어</h1>
+          <p>4회차 단어 수업과 퀴즈를 공부하거나, 학교 단어장 전체를 날짜별로 복습할 수 있어.</p>
+        </div>
 
-      <div class="card">
-        <div class="card-label">Start</div>
-        <div class="card-title">학습 시작하기</div>
-        <div class="card-copy">회차를 고르고, 수업을 본 뒤 바로 퀴즈까지 풀어 보자.</div>
-        <a class="start-btn" href="midterm/data/school/08_인터랙티브_학습자료.html">들어가기</a>
-      </div>
+        <div class="mode-grid">
+          <div class="card">
+            <div class="card-label">Start</div>
+            <div class="card-title">학습 시작하기</div>
+            <div class="card-copy">회차를 고르고, 수업을 본 뒤 바로 퀴즈까지 풀어 보자.</div>
+            <a class="start-link" href="midterm/data/school/08_인터랙티브_학습자료.html">들어가기</a>
+          </div>
+
+          <div class="card">
+            <div class="card-label">Wordbook</div>
+            <div class="card-title">전체 단어장</div>
+            <div class="card-copy">학교 단어장 전체를 Day 1부터 Day 20까지 날짜별로 보고, 단어를 눌러 뜻을 확인해 보자.</div>
+            <button class="mode-btn" id="open-wordbook">전체 단어장 열기</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="wordbook-panel">
+        <div class="topbar">
+          <div>
+            <h2>전체 단어장</h2>
+            <p>Day를 고른 뒤, 영단어와 힌트만 먼저 보고 단어를 눌러 뜻을 확인하면 된다. 다시 누르면 뜻이 다시 숨겨진다.</p>
+          </div>
+          <button class="home-btn" id="go-home" aria-label="홈으로">⌂</button>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Day Select</div>
+          <div class="day-grid" id="day-grid"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-label" id="day-label">DAY 1</div>
+          <div class="card-title" id="day-title">DAY 1 단어 30개</div>
+          <div class="card-copy">영단어와 힌트만 먼저 보고 뜻을 떠올린 뒤, 단어를 눌러서 확인하자.</div>
+          <div id="word-list"></div>
+        </div>
+      </section>
     </section>
   </main>
+
+  <script>
+    const schoolWordbook = {
+      1: [
+        ["annual", "매년의", "DAY 1 · 1번"],
+        ["rental", "임대, 대여", "DAY 1 · 2번"],
+        ["proceeds", "수익금", "DAY 1 · 3번"],
+        ["deliver", "전달하다", "DAY 1 · 4번"],
+        ["refund", "환불, 환불하다", "DAY 1 · 5번"],
+        ["enclose", "둘러싸다, 동봉하다", "DAY 1 · 6번"],
+        ["vibrant", "활기찬", "DAY 1 · 7번"],
+        ["previous", "이전의", "DAY 1 · 8번"],
+        ["exceptional", "예외적으로 뛰어난", "DAY 1 · 9번"],
+        ["valuable", "가치 있는", "DAY 1 · 10번"],
+        ["insight", "통찰", "DAY 1 · 11번"],
+        ["toss", "던지다", "DAY 1 · 12번"],
+        ["register", "등록하다", "DAY 1 · 13번"],
+        ["abandon", "버리다, 포기하다", "DAY 1 · 14번"],
+        ["reassure", "안심시키다", "DAY 1 · 15번"],
+        ["overwhelm", "압도하다", "DAY 1 · 16번"],
+        ["barefoot", "맨발의", "DAY 1 · 17번"],
+        ["moss", "이끼", "DAY 1 · 18번"],
+        ["patch", "조각, 부분", "DAY 1 · 19번"],
+        ["hum", "흥얼거리다", "DAY 1 · 20번"],
+        ["wander", "거닐다", "DAY 1 · 21번"],
+        ["sculpture", "조각품", "DAY 1 · 22번"],
+        ["exhibition", "전시회", "DAY 1 · 23번"],
+        ["appreciate", "감사하다, 감상하다", "DAY 1 · 24번"],
+        ["explore", "탐험하다, 탐구하다", "DAY 1 · 25번"],
+        ["unconsciousness", "무의식, 의식불명", "DAY 1 · 26번"],
+        ["shallow", "얕은", "DAY 1 · 27번"],
+        ["eyelid", "눈꺼풀", "DAY 1 · 28번"],
+        ["astonishment", "놀람", "DAY 1 · 29번"],
+        ["presence", "존재, 현존", "DAY 1 · 30번"]
+      ],
+      2: [
+        ["prevalence", "유행, 널리 퍼짐", "DAY 2 · 1번"],
+        ["packaging", "포장", "DAY 2 · 2번"],
+        ["coin", "동전", "DAY 2 · 3번"],
+        ["adverse", "불리한, 부정적인", "DAY 2 · 4번"],
+        ["shrink", "줄어들다", "DAY 2 · 5번"],
+        ["interpret", "해석하다", "DAY 2 · 6번"],
+        ["express", "표현하다", "DAY 2 · 7번"],
+        ["compliment", "칭찬", "DAY 2 · 8번"],
+        ["positive", "긍정적인", "DAY 2 · 9번"],
+        ["duration", "지속 기간", "DAY 2 · 10번"],
+        ["subsequent", "이후의", "DAY 2 · 11번"],
+        ["gloomy", "우울한, 어두운", "DAY 2 · 12번"],
+        ["continuous", "계속되는", "DAY 2 · 13번"],
+        ["define", "정의하다", "DAY 2 · 14번"],
+        ["impose", "부과하다, 강요하다", "DAY 2 · 15번"],
+        ["urge", "촉구하다, 충동", "DAY 2 · 16번"],
+        ["variation", "변화, 변형", "DAY 2 · 17번"],
+        ["overcome", "극복하다", "DAY 2 · 18번"],
+        ["address", "다루다, 주소", "DAY 2 · 19번"],
+        ["prompt", "즉각적인, 촉발하다", "DAY 2 · 20번"],
+        ["comfy", "편안한", "DAY 2 · 21번"],
+        ["luxury", "사치, 호화로움", "DAY 2 · 22번"],
+        ["toolkit", "연장 상자, 도구 모음", "DAY 2 · 23번"],
+        ["promote", "촉진하다, 홍보하다", "DAY 2 · 24번"],
+        ["tackle", "다루다, 해결하다", "DAY 2 · 25번"],
+        ["ethical", "윤리적인", "DAY 2 · 26번"],
+        ["crisis", "위기", "DAY 2 · 27번"],
+        ["contradict", "모순되다, 반박하다", "DAY 2 · 28번"],
+        ["adaptation", "적응, 각색", "DAY 2 · 29번"],
+        ["frustration", "좌절감", "DAY 2 · 30번"]
+      ],
+      3: [
+        ["approximation", "근사치, 대략적인 추정", "DAY 3 · 1번"],
+        ["discourse", "담론, 담화", "DAY 3 · 2번"],
+        ["pollster", "여론조사원", "DAY 3 · 3번"],
+        ["methodology", "방법론", "DAY 3 · 4번"],
+        ["tolerate", "참다, 용인하다", "DAY 3 · 5번"],
+        ["pen", "펜, 우리", "DAY 3 · 6번"],
+        ["domestication", "가축화, 길들임", "DAY 3 · 7번"],
+        ["breed", "품종, 번식하다", "DAY 3 · 8번"],
+        ["blend", "섞다, 혼합", "DAY 3 · 9번"],
+        ["acknowledgement", "인정, 감사 표시", "DAY 3 · 10번"],
+        ["considerate", "배려하는", "DAY 3 · 11번"],
+        ["derivative", "파생물, 파생된", "DAY 3 · 12번"],
+        ["impulse", "충동", "DAY 3 · 13번"],
+        ["deliberate", "신중한, 숙고하다", "DAY 3 · 14번"],
+        ["reflective", "성찰하는", "DAY 3 · 15번"],
+        ["reverse", "반대의, 뒤집다", "DAY 3 · 16번"],
+        ["detect", "발견하다, 감지하다", "DAY 3 · 17번"],
+        ["intensive", "집중적인", "DAY 3 · 18번"],
+        ["instantaneous", "순간적인", "DAY 3 · 19번"],
+        ["respective", "각각의", "DAY 3 · 20번"],
+        ["portray", "묘사하다", "DAY 3 · 21번"],
+        ["depict", "그리다, 묘사하다", "DAY 3 · 22번"],
+        ["crucial", "중요한", "DAY 3 · 23번"],
+        ["barrier", "장벽", "DAY 3 · 24번"],
+        ["favo(u)r", "호의, 찬성", "DAY 3 · 25번"],
+        ["stereotype", "고정관념", "DAY 3 · 26번"],
+        ["evaluate", "평가하다", "DAY 3 · 27번"],
+        ["impression", "인상", "DAY 3 · 28번"],
+        ["maintain", "유지하다", "DAY 3 · 29번"],
+        ["numerous", "수많은", "DAY 3 · 30번"]
+      ],
+      4: [
+        ["costly", "비용이 많이 드는", "DAY 4 · 1번"],
+        ["humiliation", "굴욕", "DAY 4 · 2번"],
+        ["elimination", "제거, 탈락", "DAY 4 · 3번"],
+        ["emergence", "출현", "DAY 4 · 4번"],
+        ["consequence", "결과", "DAY 4 · 5번"],
+        ["exclusion", "배제", "DAY 4 · 6번"],
+        ["analysis", "분석", "DAY 4 · 7번"],
+        ["motive", "동기", "DAY 4 · 8번"],
+        ["demonstrate", "보여주다, 입증하다", "DAY 4 · 9번"],
+        ["construct", "구성하다, 건설하다", "DAY 4 · 10번"],
+        ["medium", "매체, 중간의", "DAY 4 · 11번"],
+        ["proper", "적절한", "DAY 4 · 12번"],
+        ["measure", "측정하다, 조치", "DAY 4 · 13번"],
+        ["slight", "약간의", "DAY 4 · 14번"],
+        ["format", "형식", "DAY 4 · 15번"],
+        ["witness", "목격자, 목격하다", "DAY 4 · 16번"],
+        ["tropical", "열대의", "DAY 4 · 17번"],
+        ["feature", "특징", "DAY 4 · 18번"],
+        ["expenditure", "지출", "DAY 4 · 19번"],
+        ["exceed", "넘다, 초과하다", "DAY 4 · 20번"],
+        ["constitute", "구성하다", "DAY 4 · 21번"],
+        ["report", "보고하다, 보고서", "DAY 4 · 22번"],
+        ["edge", "가장자리, 우위", "DAY 4 · 23번"],
+        ["assistant", "조수", "DAY 4 · 24번"],
+        ["official", "공식적인, 공무원", "DAY 4 · 25번"],
+        ["ridicule", "비웃음, 조롱하다", "DAY 4 · 26번"],
+        ["enormous", "거대한", "DAY 4 · 27번"],
+        ["occupy", "차지하다", "DAY 4 · 28번"],
+        ["priest", "사제", "DAY 4 · 29번"],
+        ["region", "지역", "DAY 4 · 30번"]
+      ],
+      5: [
+        ["overrun", "초과하다, 들끓다", "DAY 5 · 1번"],
+        ["receive", "받다", "DAY 5 · 2번"],
+        ["enthusiastic", "열정적인", "DAY 5 · 3번"],
+        ["publish", "출판하다", "DAY 5 · 4번"],
+        ["logician", "논리학자", "DAY 5 · 5번"],
+        ["found", "설립하다", "DAY 5 · 6번"],
+        ["scholarship", "장학금, 학문", "DAY 5 · 7번"],
+        ["interrupt", "방해하다", "DAY 5 · 8번"],
+        ["decode", "해독하다", "DAY 5 · 9번"],
+        ["relive", "다시 경험하다", "DAY 5 · 10번"],
+        ["gather", "모으다", "DAY 5 · 11번"],
+        ["equipment", "장비", "DAY 5 · 12번"],
+        ["maximum", "최대의, 최대치", "DAY 5 · 13번"],
+        ["fee", "요금, 수수료", "DAY 5 · 14번"],
+        ["engaging", "매력적인", "DAY 5 · 15번"],
+        ["submission", "제출", "DAY 5 · 16번"],
+        ["location", "위치", "DAY 5 · 17번"],
+        ["induce", "유발하다", "DAY 5 · 18번"],
+        ["vague", "모호한", "DAY 5 · 19번"],
+        ["sponsor", "후원자, 후원하다", "DAY 5 · 20번"],
+        ["ecological", "생태학의", "DAY 5 · 21번"],
+        ["suspect", "의심하다, 용의자", "DAY 5 · 22번"],
+        ["convey", "전달하다", "DAY 5 · 23번"],
+        ["compression", "압축", "DAY 5 · 24번"],
+        ["vertical", "수직의", "DAY 5 · 25번"],
+        ["distinct", "뚜렷이 다른", "DAY 5 · 26번"],
+        ["comprehension", "이해", "DAY 5 · 27번"],
+        ["recollect", "기억해내다", "DAY 5 · 28번"],
+        ["actual", "실제의", "DAY 5 · 29번"],
+        ["store", "저장하다, 가게", "DAY 5 · 30번"]
+      ],
+      6: [
+        ["fundamental", "근본적인", "DAY 6 · 1번"],
+        ["involve", "관련시키다, 포함하다", "DAY 6 · 2번"],
+        ["means", "수단, 방법", "DAY 6 · 3번"],
+        ["derive", "이끌어내다", "DAY 6 · 4번"],
+        ["desire", "욕망, 바라다", "DAY 6 · 5번"],
+        ["compel", "강요하다", "DAY 6 · 6번"],
+        ["consume", "소비하다", "DAY 6 · 7번"],
+        ["outweigh", "더 중요하다, 능가하다", "DAY 6 · 8번"],
+        ["hindrance", "방해물", "DAY 6 · 9번"],
+        ["virtual", "가상의", "DAY 6 · 10번"],
+        ["monetary", "금전의", "DAY 6 · 11번"],
+        ["scope", "범위", "DAY 6 · 12번"],
+        ["coordination", "조정, 협력", "DAY 6 · 13번"],
+        ["anew", "새로, 다시", "DAY 6 · 14번"],
+        ["familiarity", "친숙함", "DAY 6 · 15번"],
+        ["prime", "주요한, 전성기", "DAY 6 · 16번"],
+        ["conclude", "결론짓다", "DAY 6 · 17번"],
+        ["induction", "유도, 귀납", "DAY 6 · 18번"],
+        ["occurrence", "발생", "DAY 6 · 19번"],
+        ["prevail", "우세하다, 만연하다", "DAY 6 · 20번"],
+        ["obscure", "모호한, 잘 알려지지 않은", "DAY 6 · 21번"],
+        ["manual", "손으로 하는, 설명서", "DAY 6 · 22번"],
+        ["innovation", "혁신", "DAY 6 · 23번"],
+        ["device", "장치, 기기", "DAY 6 · 24번"],
+        ["facilitate", "촉진하다", "DAY 6 · 25번"],
+        ["relieve", "완화하다", "DAY 6 · 26번"],
+        ["afford", "여유가 있다", "DAY 6 · 27번"],
+        ["virtue", "미덕", "DAY 6 · 28번"],
+        ["possess", "소유하다", "DAY 6 · 29번"],
+        ["capacity", "능력, 수용력", "DAY 6 · 30번"]
+      ],
+      7: [
+        ["endow", "부여하다", "DAY 7 · 1번"],
+        ["excel", "뛰어나다", "DAY 7 · 2번"],
+        ["differentiate", "구별하다", "DAY 7 · 3번"],
+        ["chronic", "만성의", "DAY 7 · 4번"],
+        ["genuine", "진짜의", "DAY 7 · 5번"],
+        ["avid", "열렬한", "DAY 7 · 6번"],
+        ["disinterest", "무관심", "DAY 7 · 7번"],
+        ["fault", "결점, 잘못", "DAY 7 · 8번"],
+        ["inexcusable", "용서할 수 없는", "DAY 7 · 9번"],
+        ["comment", "논평, 논평하다", "DAY 7 · 10번"],
+        ["valid", "타당한", "DAY 7 · 11번"],
+        ["lack", "부족, 부족하다", "DAY 7 · 12번"],
+        ["monitor", "감시하다, 모니터", "DAY 7 · 13번"],
+        ["status", "지위, 상태", "DAY 7 · 14번"],
+        ["preventive", "예방의", "DAY 7 · 15번"],
+        ["skyrocket", "치솟다", "DAY 7 · 16번"],
+        ["evolve", "진화하다", "DAY 7 · 17번"],
+        ["lower", "낮추다", "DAY 7 · 18번"],
+        ["sensation", "감각, 느낌", "DAY 7 · 19번"],
+        ["reproductive", "생식의", "DAY 7 · 20번"],
+        ["mental", "정신의", "DAY 7 · 21번"],
+        ["impact", "영향, 충격", "DAY 7 · 22번"],
+        ["disadvantaged", "불리한 처지의", "DAY 7 · 23번"],
+        ["suitable", "적절한", "DAY 7 · 24번"],
+        ["access", "접근, 이용하다", "DAY 7 · 25번"],
+        ["venue", "장소", "DAY 7 · 26번"],
+        ["bother", "괴롭히다, 신경 쓰다", "DAY 7 · 27번"],
+        ["dietetic", "식이의", "DAY 7 · 28번"],
+        ["burden", "부담", "DAY 7 · 29번"],
+        ["embarrassment", "당황, 난처함", "DAY 7 · 30번"]
+      ],
+      8: [
+        ["vary", "다르다, 변하다", "DAY 8 · 1번"],
+        ["discrimination", "차별, 식별", "DAY 8 · 2번"],
+        ["myth", "신화", "DAY 8 · 3번"],
+        ["thrive", "번영하다", "DAY 8 · 4번"],
+        ["efficient", "효율적인", "DAY 8 · 5번"],
+        ["calculation", "계산", "DAY 8 · 6번"],
+        ["document", "문서, 기록하다", "DAY 8 · 7번"],
+        ["ingenuity", "독창성", "DAY 8 · 8번"],
+        ["organic", "유기농의, 유기적인", "DAY 8 · 9번"],
+        ["fatten", "살찌우다", "DAY 8 · 10번"],
+        ["strict", "엄격한", "DAY 8 · 11번"],
+        ["barn", "헛간", "DAY 8 · 12번"],
+        ["mound", "흙더미, 언덕", "DAY 8 · 13번"],
+        ["assemble", "모으다, 조립하다", "DAY 8 · 14번"],
+        ["gigantic", "거대한", "DAY 8 · 15번"],
+        ["delegate", "대표, 위임하다", "DAY 8 · 16번"],
+        ["intense", "강렬한", "DAY 8 · 17번"],
+        ["bitter", "쓴, 쓰라린", "DAY 8 · 18번"],
+        ["term", "용어, 기간", "DAY 8 · 19번"],
+        ["trace", "흔적, 추적하다", "DAY 8 · 20번"],
+        ["candidate", "후보", "DAY 8 · 21번"],
+        ["representation", "표현, 대표", "DAY 8 · 22번"],
+        ["signify", "의미하다", "DAY 8 · 23번"],
+        ["comparison", "비교", "DAY 8 · 24번"],
+        ["plasticity", "가소성, 유연성", "DAY 8 · 25번"],
+        ["constant", "끊임없는, 상수", "DAY 8 · 26번"],
+        ["trigger", "촉발하다, 방아쇠", "DAY 8 · 27번"],
+        ["secondary", "이차적인", "DAY 8 · 28번"],
+        ["intake", "섭취량", "DAY 8 · 29번"],
+        ["specialist", "전문가", "DAY 8 · 30번"]
+      ],
+      9: [
+        ["intrinsic", "본질적인", "DAY 9 · 1번"],
+        ["interdisciplinary", "학제간의", "DAY 9 · 2번"],
+        ["subtlety", "미묘함", "DAY 9 · 3번"],
+        ["collaboration", "협력", "DAY 9 · 4번"],
+        ["count", "세다, 중요하다", "DAY 9 · 5번"],
+        ["localized", "국지적인, 지역화된", "DAY 9 · 6번"],
+        ["exist", "존재하다", "DAY 9 · 7번"],
+        ["territory", "영역, 영토", "DAY 9 · 8번"],
+        ["conflict", "갈등", "DAY 9 · 9번"],
+        ["expose", "노출시키다, 폭로하다", "DAY 9 · 10번"],
+        ["grant", "허락하다, 보조금", "DAY 9 · 11번"],
+        ["notion", "개념, 생각", "DAY 9 · 12번"],
+        ["divine", "신성한", "DAY 9 · 13번"],
+        ["conception", "개념, 임신", "DAY 9 · 14번"],
+        ["replace", "대체하다", "DAY 9 · 15번"],
+        ["brilliant", "훌륭한, 빛나는", "DAY 9 · 16번"],
+        ["wage", "임금", "DAY 9 · 17번"],
+        ["preferable", "더 바람직한", "DAY 9 · 18번"],
+        ["vanish", "사라지다", "DAY 9 · 19번"],
+        ["current", "현재의, 흐름", "DAY 9 · 20번"],
+        ["employ", "고용하다, 사용하다", "DAY 9 · 21번"],
+        ["output", "산출, 출력", "DAY 9 · 22번"],
+        ["appropriate", "적절한", "DAY 9 · 23번"],
+        ["shelter", "피난처, 보호하다", "DAY 9 · 24번"],
+        ["occupation", "직업, 점령", "DAY 9 · 25번"],
+        ["adopt", "채택하다, 입양하다", "DAY 9 · 26번"],
+        ["expand", "확장하다", "DAY 9 · 27번"],
+        ["momentary", "순간적인", "DAY 9 · 28번"],
+        ["endure", "견디다", "DAY 9 · 29번"],
+        ["revolution", "혁명", "DAY 9 · 30번"]
+      ],
+      10: [
+        ["distortion", "왜곡", "DAY 10 · 1번"],
+        ["visual", "시각의", "DAY 10 · 2번"],
+        ["strive", "노력하다", "DAY 10 · 3번"],
+        ["linguistic", "언어의", "DAY 10 · 4번"],
+        ["origin", "기원", "DAY 10 · 5번"],
+        ["faculty", "능력, 학부", "DAY 10 · 6번"],
+        ["institution", "제도, 기관", "DAY 10 · 7번"],
+        ["constrained", "제약된", "DAY 10 · 8번"],
+        ["recruitment", "채용, 모집", "DAY 10 · 9번"],
+        ["alienate", "소외시키다", "DAY 10 · 10번"],
+        ["accustomed", "익숙한", "DAY 10 · 11번"],
+        ["bias", "편견, 편향", "DAY 10 · 12번"],
+        ["categorize", "분류하다", "DAY 10 · 13번"],
+        ["criticism", "비판", "DAY 10 · 14번"],
+        ["inclusive", "포괄적인", "DAY 10 · 15번"],
+        ["objective", "목적, 객관적인", "DAY 10 · 16번"],
+        ["detachment", "분리, 초연함", "DAY 10 · 17번"],
+        ["superior", "우수한, 상급자", "DAY 10 · 18번"],
+        ["viewpoint", "관점", "DAY 10 · 19번"],
+        ["holistic", "전체론적인", "DAY 10 · 20번"],
+        ["artificial", "인공의", "DAY 10 · 21번"],
+        ["worsen", "악화되다", "DAY 10 · 22번"],
+        ["neutral", "중립적인", "DAY 10 · 23번"],
+        ["safeguard", "보호장치, 보호하다", "DAY 10 · 24번"],
+        ["preach", "설교하다", "DAY 10 · 25번"],
+        ["impartiality", "공정함", "DAY 10 · 26번"],
+        ["imprint", "깊이 새기다", "DAY 10 · 27번"],
+        ["casual", "무심한, 평상복의", "DAY 10 · 28번"],
+        ["dense", "빽빽한", "DAY 10 · 29번"],
+        ["former", "이전의", "DAY 10 · 30번"]
+      ],
+      11: [
+        ["frequency", "빈도", "DAY 11 · 1번"],
+        ["defend", "방어하다", "DAY 11 · 2번"],
+        ["reason", "이유, 이성", "DAY 11 · 3번"],
+        ["sneak", "몰래 움직이다", "DAY 11 · 4번"],
+        ["cover", "덮다, 다루다", "DAY 11 · 5번"],
+        ["allowance", "용돈, 허용량", "DAY 11 · 6번"],
+        ["grab", "붙잡다", "DAY 11 · 7번"],
+        ["microscope", "현미경", "DAY 11 · 8번"],
+        ["imitate", "모방하다", "DAY 11 · 9번"],
+        ["lounge", "라운지, 느긋하게 있다", "DAY 11 · 10번"],
+        ["massive", "거대한", "DAY 11 · 11번"],
+        ["filter", "거르다, 필터", "DAY 11 · 12번"],
+        ["insistent", "끈질긴, 강력히 주장하는", "DAY 11 · 13번"],
+        ["apologetic", "미안해하는", "DAY 11 · 14번"],
+        ["hesitate", "주저하다", "DAY 11 · 15번"],
+        ["navigate", "길을 찾다, 항해하다", "DAY 11 · 16번"],
+        ["hostile", "적대적인", "DAY 11 · 17번"],
+        ["annoyance", "짜증", "DAY 11 · 18번"],
+        ["session", "시간, 회기", "DAY 11 · 19번"],
+        ["honorable", "명예로운", "DAY 11 · 20번"],
+        ["permanent", "영구적인", "DAY 11 · 21번"],
+        ["descendant", "후손", "DAY 11 · 22번"],
+        ["hospitality", "환대", "DAY 11 · 23번"],
+        ["disregard", "무시하다", "DAY 11 · 24번"],
+        ["treaty", "조약", "DAY 11 · 25번"],
+        ["crisp", "바삭한, 산뜻한", "DAY 11 · 26번"],
+        ["upbeat", "낙관적인", "DAY 11 · 27번"],
+        ["stretch", "늘이다", "DAY 11 · 28번"],
+        ["decent", "괜찮은, 품위 있는", "DAY 11 · 29번"],
+        ["invisible", "보이지 않는", "DAY 11 · 30번"]
+      ],
+      12: [
+        ["plough", "쟁기, 경작하다", "DAY 12 · 1번"],
+        ["attach", "붙이다", "DAY 12 · 2번"],
+        ["persistent", "끈질긴", "DAY 12 · 3번"],
+        ["harvest", "수확하다, 수확", "DAY 12 · 4번"],
+        ["immune", "면역의", "DAY 12 · 5번"],
+        ["hardship", "고난", "DAY 12 · 6번"],
+        ["illustrate", "설명하다, 삽화를 넣다", "DAY 12 · 7번"],
+        ["geography", "지리학", "DAY 12 · 8번"],
+        ["intellectual", "지적인, 지식인", "DAY 12 · 9번"],
+        ["colony", "식민지, 군체", "DAY 12 · 10번"],
+        ["equivalent", "동등한, 동등물", "DAY 12 · 11번"],
+        ["convert", "변환하다", "DAY 12 · 12번"],
+        ["inspection", "점검, 검사", "DAY 12 · 13번"],
+        ["contaminate", "오염시키다", "DAY 12 · 14번"],
+        ["microbiology", "미생물학", "DAY 12 · 15번"],
+        ["refrigeration", "냉장, 냉동", "DAY 12 · 16번"],
+        ["package", "포장하다, 꾸러미", "DAY 12 · 17번"],
+        ["improve", "개선하다", "DAY 12 · 18번"],
+        ["implement", "실행하다, 도구", "DAY 12 · 19번"],
+        ["landfill", "쓰레기 매립지", "DAY 12 · 20번"],
+        ["prove", "증명하다", "DAY 12 · 21번"],
+        ["legislation", "입법, 법률", "DAY 12 · 22번"],
+        ["obtain", "얻다", "DAY 12 · 23번"],
+        ["prevailing", "우세한, 널리 퍼진", "DAY 12 · 24번"],
+        ["represent", "나타내다, 대표하다", "DAY 12 · 25번"],
+        ["pose", "제기하다, 자세", "DAY 12 · 26번"],
+        ["abundance", "풍부", "DAY 12 · 27번"],
+        ["pressure", "압박, 압력", "DAY 12 · 28번"],
+        ["periodic", "주기적인", "DAY 12 · 29번"],
+        ["erosion", "침식", "DAY 12 · 30번"]
+      ],
+      13: [
+        ["minimum", "최소의, 최소치", "DAY 13 · 1번"],
+        ["proceed", "진행하다", "DAY 13 · 2번"],
+        ["laboratory", "실험실", "DAY 13 · 3번"],
+        ["phenomenon", "현상", "DAY 13 · 4번"],
+        ["philosophy", "철학", "DAY 13 · 5번"],
+        ["abuse", "남용하다, 학대", "DAY 13 · 6번"],
+        ["obedience", "복종", "DAY 13 · 7번"],
+        ["endeavor", "노력, 애쓰다", "DAY 13 · 8번"],
+        ["expensive", "비싼", "DAY 13 · 9번"],
+        ["resentment", "분노, 원한", "DAY 13 · 10번"],
+        ["celebrate", "축하하다", "DAY 13 · 11번"],
+        ["blanket", "담요, 덮다", "DAY 13 · 12번"],
+        ["passion", "열정", "DAY 13 · 13번"],
+        ["restructure", "재구성하다", "DAY 13 · 14번"],
+        ["authority", "권위, 권한", "DAY 13 · 15번"],
+        ["arise", "발생하다", "DAY 13 · 16번"],
+        ["mainstream", "주류", "DAY 13 · 17번"],
+        ["insist", "주장하다", "DAY 13 · 18번"],
+        ["flourish", "번성하다", "DAY 13 · 19번"],
+        ["discount", "할인", "DAY 13 · 20번"],
+        ["reject", "거부하다", "DAY 13 · 21번"],
+        ["secret", "비밀", "DAY 13 · 22번"],
+        ["formulate", "공식화하다, 만들어내다", "DAY 13 · 23번"],
+        ["harmony", "조화", "DAY 13 · 24번"],
+        ["foreground", "전경, 중요시하다", "DAY 13 · 25번"],
+        ["amplify", "확대하다, 증폭하다", "DAY 13 · 26번"],
+        ["dismiss", "해고하다, 묵살하다", "DAY 13 · 27번"],
+        ["distressed", "고통받는, 괴로운", "DAY 13 · 28번"],
+        ["implication", "함의, 영향", "DAY 13 · 29번"],
+        ["framework", "틀, 체계", "DAY 13 · 30번"]
+      ],
+      14: [
+        ["estimate", "추정하다, 추정치", "DAY 14 · 1번"],
+        ["modest", "겸손한, 적당한", "DAY 14 · 2번"],
+        ["subsidize", "보조금을 주다", "DAY 14 · 3번"],
+        ["consensus", "합의", "DAY 14 · 4번"],
+        ["contribute", "기여하다", "DAY 14 · 5번"],
+        ["relationship", "관계", "DAY 14 · 6번"],
+        ["rate", "비율, 평가하다", "DAY 14 · 7번"],
+        ["susceptible", "영향받기 쉬운", "DAY 14 · 8번"],
+        ["physiological", "생리적인", "DAY 14 · 9번"],
+        ["empathy", "공감", "DAY 14 · 10번"],
+        ["finding", "발견, 결과", "DAY 14 · 11번"],
+        ["emotional", "감정적인", "DAY 14 · 12번"],
+        ["activation", "활성화", "DAY 14 · 13번"],
+        ["bind", "묶다", "DAY 14 · 14번"],
+        ["integrate", "통합하다", "DAY 14 · 15번"],
+        ["primitive", "원시적인", "DAY 14 · 16번"],
+        ["awkward", "어색한", "DAY 14 · 17번"],
+        ["aggressive", "공격적인", "DAY 14 · 18번"],
+        ["admit", "인정하다, 입학시키다", "DAY 14 · 19번"],
+        ["flee", "도망치다", "DAY 14 · 20번"],
+        ["gap", "격차, 틈", "DAY 14 · 21번"],
+        ["competent", "유능한", "DAY 14 · 22번"],
+        ["minute", "아주 작은, 분", "DAY 14 · 23번"],
+        ["beverage", "음료", "DAY 14 · 24번"],
+        ["legendary", "전설적인", "DAY 14 · 25번"],
+        ["scheme", "계획, 계략", "DAY 14 · 26번"],
+        ["earnings", "수입", "DAY 14 · 27번"],
+        ["outcry", "격렬한 항의", "DAY 14 · 28번"],
+        ["distaste", "혐오", "DAY 14 · 29번"],
+        ["infection", "감염", "DAY 14 · 30번"]
+      ],
+      15: [
+        ["distribution", "분배, 유통", "DAY 15 · 1번"],
+        ["digestion", "소화", "DAY 15 · 2번"],
+        ["haunted", "유령이 나오는, 떠나지 않는", "DAY 15 · 3번"],
+        ["supernatural", "초자연적인", "DAY 15 · 4번"],
+        ["universal", "보편적인", "DAY 15 · 5번"],
+        ["application", "지원, 적용, 응용프로그램", "DAY 15 · 6번"],
+        ["fragile", "깨지기 쉬운, 연약한", "DAY 15 · 7번"],
+        ["cutback", "삭감", "DAY 15 · 8번"],
+        ["management", "관리", "DAY 15 · 9번"],
+        ["quarter", "4분의 1, 분기", "DAY 15 · 10번"],
+        ["downturn", "침체, 하락", "DAY 15 · 11번"],
+        ["supervisor", "감독자", "DAY 15 · 12번"],
+        ["entire", "전체의", "DAY 15 · 13번"],
+        ["fantastic", "환상적인", "DAY 15 · 14번"],
+        ["jewelry", "보석류", "DAY 15 · 15번"],
+        ["solution", "해결책", "DAY 15 · 16번"],
+        ["fluid", "유동적인, 액체", "DAY 15 · 17번"],
+        ["offer", "제안하다, 제공하다", "DAY 15 · 18번"],
+        ["strategy", "전략", "DAY 15 · 19번"],
+        ["proposition", "제안, 명제", "DAY 15 · 20번"],
+        ["establish", "설립하다, 확립하다", "DAY 15 · 21번"],
+        ["restrict", "제한하다", "DAY 15 · 22번"],
+        ["foundation", "기초, 재단", "DAY 15 · 23번"],
+        ["include", "포함하다", "DAY 15 · 24번"],
+        ["personal", "개인적인", "DAY 15 · 25번"],
+        ["polite", "예의 바른", "DAY 15 · 26번"],
+        ["corporate", "기업의", "DAY 15 · 27번"],
+        ["degree", "정도, 학위", "DAY 15 · 28번"],
+        ["raise", "올리다, 제기하다", "DAY 15 · 29번"],
+        ["physician", "의사", "DAY 15 · 30번"]
+      ],
+      16: [
+        ["secure", "안전한, 확보하다", "DAY 16 · 1번"],
+        ["purchase", "구매하다, 구매", "DAY 16 · 2번"],
+        ["insurance", "보험", "DAY 16 · 3번"],
+        ["passenger", "승객", "DAY 16 · 4번"],
+        ["companion", "동반자", "DAY 16 · 5번"],
+        ["stroller", "유모차, 산책하는 사람", "DAY 16 · 6번"],
+        ["vote", "투표하다, 투표", "DAY 16 · 7번"],
+        ["announce", "발표하다", "DAY 16 · 8번"],
+        ["incentive", "장려책, 동기", "DAY 16 · 9번"],
+        ["cease", "중단하다", "DAY 16 · 10번"],
+        ["vast", "거대한", "DAY 16 · 11번"],
+        ["obsessive", "강박적인", "DAY 16 · 12번"],
+        ["spot", "발견하다, 장소", "DAY 16 · 13번"],
+        ["launch", "출시하다, 시작하다", "DAY 16 · 14번"],
+        ["deter", "단념시키다", "DAY 16 · 15번"],
+        ["attack", "공격하다, 공격", "DAY 16 · 16번"],
+        ["comparative", "비교의", "DAY 16 · 17번"],
+        ["examine", "조사하다, 시험하다", "DAY 16 · 18번"],
+        ["relative", "상대적인, 친척", "DAY 16 · 19번"],
+        ["specialization", "전문화", "DAY 16 · 20번"],
+        ["custom", "관습, 맞춤의", "DAY 16 · 21번"],
+        ["formalization", "형식화", "DAY 16 · 22번"],
+        ["administrator", "관리자", "DAY 16 · 23번"],
+        ["livelihood", "생계", "DAY 16 · 24번"],
+        ["strain", "압박, 긴장", "DAY 16 · 25번"],
+        ["release", "방출하다, 공개하다", "DAY 16 · 26번"],
+        ["factual", "사실에 근거한", "DAY 16 · 27번"],
+        ["reflect", "반영하다, 반성하다", "DAY 16 · 28번"],
+        ["inability", "무능, 할 수 없음", "DAY 16 · 29번"],
+        ["aesthetic", "미적인", "DAY 16 · 30번"]
+      ],
+      17: [
+        ["subject", "주제, 과목, 피실험자", "DAY 17 · 1번"],
+        ["embody", "구현하다, 상징하다", "DAY 17 · 2번"],
+        ["extract", "추출하다", "DAY 17 · 3번"],
+        ["exhaust", "지치게 하다, 배출하다", "DAY 17 · 4번"],
+        ["target", "목표, 겨냥하다", "DAY 17 · 5번"],
+        ["devastating", "파괴적인", "DAY 17 · 6번"],
+        ["fuel", "연료, 자극하다", "DAY 17 · 7번"],
+        ["factor", "요인", "DAY 17 · 8번"],
+        ["production", "생산", "DAY 17 · 9번"],
+        ["conceptualize", "개념화하다", "DAY 17 · 10번"],
+        ["commodity", "상품", "DAY 17 · 11번"],
+        ["advocate", "지지하다, 옹호자", "DAY 17 · 12번"],
+        ["sufficient", "충분한", "DAY 17 · 13번"],
+        ["collective", "집단의", "DAY 17 · 14번"],
+        ["associate", "연관시키다, 동료", "DAY 17 · 15번"],
+        ["acquire", "획득하다", "DAY 17 · 16번"],
+        ["poison", "독, 독을 주다", "DAY 17 · 17번"],
+        ["generation", "세대, 발생", "DAY 17 · 18번"],
+        ["reputation", "평판", "DAY 17 · 19번"],
+        ["invade", "침입하다", "DAY 17 · 20번"],
+        ["conservative", "보수적인", "DAY 17 · 21번"],
+        ["punishment", "처벌", "DAY 17 · 22번"],
+        ["currency", "통화", "DAY 17 · 23번"],
+        ["correct", "정확한, 바로잡다", "DAY 17 · 24번"],
+        ["kin", "친족", "DAY 17 · 25번"],
+        ["similarity", "유사성", "DAY 17 · 26번"],
+        ["lazy", "게으른", "DAY 17 · 27번"],
+        ["notice", "알아차리다, 공지", "DAY 17 · 28번"],
+        ["struggle", "분투하다, 투쟁", "DAY 17 · 29번"],
+        ["hospitalize", "입원시키다", "DAY 17 · 30번"]
+      ],
+      18: [
+        ["willingness", "기꺼이 하는 마음", "DAY 18 · 1번"],
+        ["outfit", "복장, 장비", "DAY 18 · 2번"],
+        ["distracted", "주의가 산만한", "DAY 18 · 3번"],
+        ["dumb", "말못하는, 멍청한", "DAY 18 · 4번"],
+        ["confront", "맞서다", "DAY 18 · 5번"],
+        ["clutter", "어수선하게 만들다, 잡동사니", "DAY 18 · 6번"],
+        ["decorate", "장식하다", "DAY 18 · 7번"],
+        ["inhabit", "살다, 거주하다", "DAY 18 · 8번"],
+        ["gravity", "중력, गंभीर함", "DAY 18 · 9번"],
+        ["incorporate", "포함하다, 통합하다", "DAY 18 · 10번"],
+        ["identity", "정체성", "DAY 18 · 11번"],
+        ["internalize", "내면화하다", "DAY 18 · 12번"],
+        ["minority", "소수", "DAY 18 · 13번"],
+        ["convention", "관습, 회의", "DAY 18 · 14번"],
+        ["habitual", "습관적인", "DAY 18 · 15번"],
+        ["stimulus", "자극", "DAY 18 · 16번"],
+        ["calling", "소명, 직업", "DAY 18 · 17번"],
+        ["capture", "붙잡다, 포착하다", "DAY 18 · 18번"],
+        ["legacy", "유산", "DAY 18 · 19번"],
+        ["majority", "다수", "DAY 18 · 20번"],
+        ["scenic", "경치가 좋은", "DAY 18 · 21번"],
+        ["venture", "모험, 벤처", "DAY 18 · 22번"],
+        ["steep", "가파른", "DAY 18 · 23번"],
+        ["inhibit", "억제하다", "DAY 18 · 24번"],
+        ["unique", "독특한", "DAY 18 · 25번"],
+        ["personality", "성격, 개성", "DAY 18 · 26번"],
+        ["praise", "칭찬하다, 칭찬", "DAY 18 · 27번"],
+        ["attribute", "속성, ~의 탓으로 돌리다", "DAY 18 · 28번"],
+        ["conduct", "행동, 수행하다", "DAY 18 · 29번"],
+        ["abstract", "추상적인", "DAY 18 · 30번"]
+      ],
+      19: [
+        ["grasp", "이해하다, 붙잡다", "DAY 19 · 1번"],
+        ["host", "주최하다, 주인", "DAY 19 · 2번"],
+        ["debt", "빚", "DAY 19 · 3번"],
+        ["routine", "일상, 일과", "DAY 19 · 4번"],
+        ["deposit", "예금하다, 보증금", "DAY 19 · 5번"],
+        ["finite", "한정된", "DAY 19 · 6번"],
+        ["ultimate", "궁극적인", "DAY 19 · 7번"],
+        ["realism", "현실주의", "DAY 19 · 8번"],
+        ["introduce", "소개하다, 도입하다", "DAY 19 · 9번"],
+        ["sympathy", "동정, 공감", "DAY 19 · 10번"],
+        ["compose", "구성하다, 작곡하다", "DAY 19 · 11번"],
+        ["validation", "인정, 타당화", "DAY 19 · 12번"],
+        ["medieval", "중세의", "DAY 19 · 13번"],
+        ["rural", "시골의", "DAY 19 · 14번"],
+        ["refuge", "피난처", "DAY 19 · 15번"],
+        ["degradation", "악화, 저하", "DAY 19 · 16번"],
+        ["confuse", "혼란스럽게 하다", "DAY 19 · 17번"],
+        ["combine", "결합하다", "DAY 19 · 18번"],
+        ["huge", "거대한", "DAY 19 · 19번"],
+        ["translate", "번역하다", "DAY 19 · 20번"],
+        ["tendency", "경향", "DAY 19 · 21번"],
+        ["recipient", "받는 사람", "DAY 19 · 22번"],
+        ["attitude", "태도", "DAY 19 · 23번"],
+        ["diminish", "줄어들다, 감소시키다", "DAY 19 · 24번"],
+        ["resort", "의지하다, 휴양지", "DAY 19 · 25번"],
+        ["convince", "설득하다", "DAY 19 · 26번"],
+        ["describe", "묘사하다", "DAY 19 · 27번"],
+        ["generous", "관대한", "DAY 19 · 28번"],
+        ["purse", "지갑", "DAY 19 · 29번"],
+        ["nearby", "근처의", "DAY 19 · 30번"]
+      ],
+      20: [
+        ["procedure", "절차", "DAY 20 · 1번"],
+        ["discomfort", "불편함", "DAY 20 · 2번"],
+        ["disappointed", "실망한", "DAY 20 · 3번"],
+        ["afraid", "두려운", "DAY 20 · 4번"],
+        ["context", "맥락", "DAY 20 · 5번"],
+        ["landscape", "풍경", "DAY 20 · 6번"],
+        ["investment", "투자", "DAY 20 · 7번"],
+        ["bankruptcy", "파산", "DAY 20 · 8번"],
+        ["vitality", "활력", "DAY 20 · 9번"],
+        ["adequate", "충분한, 적절한", "DAY 20 · 10번"],
+        ["shortage", "부족", "DAY 20 · 11번"],
+        ["outbreak", "발발, 급증", "DAY 20 · 12번"],
+        ["runoff", "유출수", "DAY 20 · 13번"],
+        ["deplete", "고갈시키다", "DAY 20 · 14번"],
+        ["district", "지역, 구역", "DAY 20 · 15번"],
+        ["obligation", "의무", "DAY 20 · 16번"],
+        ["hierarchy", "위계, 서열", "DAY 20 · 17번"],
+        ["tension", "긴장", "DAY 20 · 18번"],
+        ["clarification", "설명, 명확화", "DAY 20 · 19번"],
+        ["manufacture", "제조하다, 제조", "DAY 20 · 20번"],
+        ["vacuum", "진공, 공백", "DAY 20 · 21번"],
+        ["intrigue", "흥미를 돋우다, 음모", "DAY 20 · 22번"],
+        ["modify", "수정하다", "DAY 20 · 23번"],
+        ["consist", "이루어져 있다", "DAY 20 · 24번"],
+        ["showcase", "진열하다, 진열장", "DAY 20 · 25번"],
+        ["tryout", "시험, 선발전", "DAY 20 · 26번"],
+        ["particle", "입자", "DAY 20 · 27번"],
+        ["solidity", "견고함", "DAY 20 · 28번"],
+        ["electron", "전자", "DAY 20 · 29번"],
+        ["resist", "저항하다", "DAY 20 · 30번"]
+      ]
+    };
+
+    const homePanel = document.getElementById("home-panel");
+    const wordbookPanel = document.getElementById("wordbook-panel");
+    const dayGrid = document.getElementById("day-grid");
+    const wordList = document.getElementById("word-list");
+    const dayLabel = document.getElementById("day-label");
+    const dayTitle = document.getElementById("day-title");
+    const openWordbook = document.getElementById("open-wordbook");
+    const goHome = document.getElementById("go-home");
+    let currentDay = 1;
+
+    function renderDays() {
+      dayGrid.innerHTML = Array.from({ length: 20 }, (_, index) => {
+        const day = index + 1;
+        return `<button class="day-btn ${day === currentDay ? "active" : ""}" data-day="${day}">Day ${day}</button>`;
+      }).join("");
+    }
+
+    function renderWordList() {
+      const words = schoolWordbook[currentDay];
+      dayLabel.textContent = `DAY ${currentDay}`;
+      dayTitle.textContent = `DAY ${currentDay} 단어 30개`;
+      wordList.innerHTML = words.map((item, index) => `
+        <div class="wordbook-item">
+          <button class="wordbook-toggle">
+            <div class="word-head">
+              <strong>${item[0]}</strong>
+              <span>${item[2]}</span>
+            </div>
+          </button>
+          <div class="meaning">${item[1]}</div>
+        </div>
+      `).join("");
+    }
+
+    function showHome() {
+      homePanel.classList.add("active");
+      wordbookPanel.classList.remove("active");
+    }
+
+    function showWordbook() {
+      homePanel.classList.remove("active");
+      wordbookPanel.classList.add("active");
+      renderDays();
+      renderWordList();
+    }
+
+    openWordbook.addEventListener("click", showWordbook);
+    goHome.addEventListener("click", showHome);
+
+    dayGrid.addEventListener("click", (event) => {
+      const button = event.target.closest(".day-btn");
+      if (!button) return;
+      currentDay = Number(button.dataset.day);
+      renderDays();
+      renderWordList();
+    });
+
+    wordList.addEventListener("click", (event) => {
+      const toggle = event.target.closest(".wordbook-toggle");
+      if (!toggle) return;
+      toggle.closest(".wordbook-item").classList.toggle("open");
+    });
+  </script>
 </body>
 </html>
