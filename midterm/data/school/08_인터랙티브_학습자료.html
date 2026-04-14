@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <title>중간고사 단어 수업</title>
+  <style>
+    :root {
+      --bg: #f6efe4;
+      --bg-deep: #eadbc5;
+      --ink: #1d1a16;
+      --muted: #6f675c;
+      --card: rgba(255, 250, 243, 0.88);
+      --line: rgba(44, 36, 24, 0.1);
+      --brand: #b55233;
+      --brand-2: #2f6c63;
+      --accent: #d9902b;
+      --ok: #2f7d57;
+      --wrong: #b63a3a;
+      --shadow: 0 18px 40px rgba(62, 45, 18, 0.12);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(217, 144, 43, 0.18), transparent 34%),
+        linear-gradient(180deg, #f4e6cf 0%, var(--bg) 30%, #f3ede7 100%);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 18px 12px 28px;
+    }
+
+    .phone {
+      width: min(100%, 430px);
+      min-height: calc(100vh - 36px);
+      background: linear-gradient(180deg, rgba(255, 252, 247, 0.92), rgba(255, 248, 238, 0.96));
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 36px;
+      box-shadow: 0 28px 80px rgba(73, 49, 19, 0.2);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 24px;
+      border-radius: 99px;
+      background: rgba(50, 40, 30, 0.08);
+      z-index: 2;
+    }
+
+    .app {
+      padding: 38px 14px 22px;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .hero {
+      padding: 18px;
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(181, 82, 51, 0.96), rgba(217, 144, 43, 0.9));
+      color: white;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -24px;
+      top: -18px;
+      width: 120px;
+      height: 120px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 50%;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.84;
+      margin-bottom: 8px;
+    }
+
+    h1, h2, h3, p {
+      margin: 0;
+    }
+
+    .hero h1 {
+      font-size: 26px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero p {
+      position: relative;
+      z-index: 1;
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0.92;
+    }
+
+    .chips,
+    .segment {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .chips::-webkit-scrollbar,
+    .segment::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip,
+    .segment button,
+    .action {
+      border: 0;
+      cursor: pointer;
+      transition: transform 0.16s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .chip {
+      flex: 1 1 0;
+      padding: 12px 8px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--muted);
+      border: 1px solid var(--line);
+      text-align: center;
+      min-width: 0;
+    }
+
+    .chip strong {
+      display: block;
+      color: var(--ink);
+      font-size: 14px;
+      margin-bottom: 0;
+    }
+
+    .chip.active {
+      background: #fff2e2;
+      color: var(--brand);
+      border-color: rgba(181, 82, 51, 0.25);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(181, 82, 51, 0.12);
+    }
+
+    .segment {
+      background: rgba(255, 255, 255, 0.65);
+      padding: 6px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+    }
+
+    .segment button {
+      flex: 1 0 0;
+      padding: 12px 10px;
+      border-radius: 16px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .segment button.active {
+      background: linear-gradient(135deg, var(--brand-2), #4d8c82);
+      color: white;
+      box-shadow: 0 10px 24px rgba(47, 108, 99, 0.22);
+    }
+
+    .flashcard {
+      position: relative;
+      min-height: 170px;
+      perspective: 1200px;
+      margin-top: 8px;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      min-height: 170px;
+      transition: transform 0.55s ease;
+      transform-style: preserve-3d;
+    }
+
+    .flashcard.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 22px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,247,237,0.96));
+      border: 1px solid rgba(44, 36, 24, 0.07);
+    }
+
+    .flashcard-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(180deg, rgba(47,108,99,0.12), rgba(255,255,255,0.95));
+    }
+
+    .flashcard-word {
+      font-size: 30px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--brand);
+    }
+
+    .flashcard-sub {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    .flashcard-meta {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
+    .flash-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .flash-btn {
+      flex: 1;
+      padding: 12px 10px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.86);
+      color: var(--brand-2);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .panel {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      animation: rise 0.22s ease;
+    }
+
+    .panel.active {
+      display: flex;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(47, 108, 99, 0.1);
+      color: var(--brand-2);
+      border: 1px solid rgba(47, 108, 99, 0.12);
+    }
+
+    .step {
+      padding: 14px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,247,237,0.92));
+      border: 1px solid rgba(44, 36, 24, 0.07);
+      margin-bottom: 10px;
+    }
+
+    .step:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(181, 82, 51, 0.12);
+      color: var(--brand);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .step h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .step ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--ink);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .step .focus {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(217, 144, 43, 0.12);
+      color: #7a4d0c;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .vocab-group {
+      margin-bottom: 14px;
+    }
+
+    .vocab-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .vocab-group h3 {
+      font-size: 15px;
+      margin-bottom: 10px;
+      color: var(--brand);
+    }
+
+    .vocab-item {
+      border-top: 1px solid var(--line);
+      padding: 12px 0;
+    }
+
+    .vocab-item:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .word {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+
+    .word strong {
+      font-size: 16px;
+    }
+
+    .word span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .meaning {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .memo {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .sentence {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(44, 36, 24, 0.06);
+      margin-bottom: 10px;
+    }
+
+    .sentence:last-child {
+      margin-bottom: 0;
+    }
+
+    .sentence-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 10px;
+    }
+
+    .sentence-head strong {
+      color: var(--brand);
+      font-size: 13px;
+    }
+
+    .toggle-korean {
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: rgba(47, 108, 99, 0.1);
+      color: var(--brand-2);
+    }
+
+    .english {
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .korean {
+      display: none;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--muted);
+      padding-top: 10px;
+      border-top: 1px dashed var(--line);
+    }
+
+    .sentence.show .korean {
+      display: block;
+    }
+
+    .quiz-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .score-pill {
+      font-size: 12px;
+      font-weight: 800;
+      color: white;
+      background: linear-gradient(135deg, var(--brand), #d27b1d);
+      padding: 9px 12px;
+      border-radius: 999px;
+    }
+
+    .quiz-item {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(44, 36, 24, 0.06);
+      margin-bottom: 10px;
+    }
+
+    .quiz-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .quiz-item h3 {
+      font-size: 15px;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .quiz-item .question-type {
+      font-size: 11px;
+      color: var(--brand-2);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 800;
+    }
+
+    .options {
+      display: grid;
+      gap: 8px;
+    }
+
+    .option {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.8);
+      border-radius: 14px;
+      padding: 12px 12px;
+      text-align: left;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .option.selected {
+      border-color: rgba(47, 108, 99, 0.3);
+      background: rgba(47, 108, 99, 0.12);
+    }
+
+    .option.correct {
+      border-color: rgba(47, 125, 87, 0.28);
+      background: rgba(47, 125, 87, 0.12);
+      color: var(--ok);
+    }
+
+    .option.wrong {
+      border-color: rgba(182, 58, 58, 0.28);
+      background: rgba(182, 58, 58, 0.12);
+      color: var(--wrong);
+    }
+
+    .result {
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--muted);
+      display: none;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      position: sticky;
+      bottom: 0;
+      padding-top: 4px;
+      background: linear-gradient(180deg, rgba(246,239,228,0), rgba(246,239,228,0.95) 22%);
+    }
+
+    .action {
+      flex: 1 1 0;
+      padding: 15px 12px;
+      border-radius: 18px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .action:disabled {
+      opacity: 0.45;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .action.primary {
+      background: linear-gradient(135deg, var(--brand), #db8a25);
+      color: white;
+      box-shadow: 0 14px 28px rgba(181, 82, 51, 0.22);
+    }
+
+    .action.secondary {
+      background: rgba(255,255,255,0.85);
+      color: var(--brand-2);
+      border: 1px solid var(--line);
+    }
+
+    .footer-space {
+      height: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <div class="app">
+      <section class="hero">
+        <div class="eyebrow">Midterm English</div>
+        <h1 id="hero-title">1회차 경제</h1>
+        <p id="hero-desc">쉬운 단어에서 시험 단어로 올라가면서, 수업과 퀴즈를 나눠서 공부하는 학습지.</p>
+      </section>
+
+      <nav class="chips" id="lesson-tabs"></nav>
+
+      <div class="segment">
+        <button class="active" data-panel="lesson">수업</button>
+        <button data-panel="quiz">퀴즈</button>
+      </div>
+
+      <section class="panel active" id="lesson-panel"></section>
+      <section class="panel" id="quiz-panel"></section>
+      <div class="footer-space"></div>
+    </div>
+  </div>
+
+  <script>
+    const lessons = [
+      {
+        id: "lesson1",
+        short: "1회차",
+        title: "경제",
+        hero: "욕구 -> 선택 -> 비용 -> 결과 구조로 경제 지문을 읽는 회차",
+        targets: ["04-Analysis", "05-Analysis", "05-연습 04", "07-연습 03"],
+        steps: [
+          {
+            title: "want에서 desire로",
+            bullets: [
+              "want / need에서 출발해 더 강한 마음인 desire로 올라간다.",
+              "좋아 보이는 수준을 넘어 valuable이라는 평가로 이동한다.",
+              "사고 싶은 마음과 살 수 있는 능력 afford를 연결한다."
+            ],
+            focus: "desire, valuable, afford, preferable"
+          },
+          {
+            title: "get에서 purchase로",
+            bullets: [
+              "단순히 얻는 것이 아니라 purchase라는 경제 행동으로 읽는다.",
+              "have를 possess로 끌어올려 지문 표현에 익숙해진다.",
+              "선택지 중 더 나은 쪽을 preferable로 구분한다."
+            ],
+            focus: "purchase, possess, preferable, means"
+          },
+          {
+            title: "price에서 consequence로",
+            bullets: [
+              "비용은 단순한 price가 아니라 burden과 monetary pressure로 확장된다.",
+              "경제 선택은 항상 consequence를 남긴다."
+            ],
+            focus: "burden, monetary, consequence, costly"
+          },
+          {
+            title: "work에서 시스템으로",
+            bullets: [
+              "wage를 통해 경제 활동의 기본 구조를 잡는다.",
+              "innovation, device, virtual 같은 변화 단어를 읽는다.",
+              "장단점을 비교하는 문장에서는 outweigh를 찾는다."
+            ],
+            focus: "wage, innovation, device, outweigh, objective"
+          }
+        ],
+        vocabGroups: [
+          {
+            title: "욕구와 선택",
+            items: [
+              ["Desire", "욕망, 욕구", "want보다 더 강한 마음", "Step 1"],
+              ["Valuable", "가치 있는", "good보다 값어치가 강조됨", "Step 1"],
+              ["Afford", "살 여유가 있다", "돈과 구매 능력 연결", "Step 1"],
+              ["Preferable", "더 바람직한", "두 선택 중 더 좋은 쪽", "Step 1-2"],
+              ["Means", "수단, 방법", "어떤 결과에 이르는 방식", "Step 2"]
+            ]
+          },
+          {
+            title: "구매와 소유",
+            items: [
+              ["Purchase", "구매하다, 구매", "buy보다 시험형 표현", "Step 2"],
+              ["Possess", "소유하다", "have의 격식형", "Step 2"],
+              ["Candidate", "후보, 대상", "선택되는 대상", "Step 2"],
+              ["Capacity", "능력, 수용력", "감당하거나 살 수 있는 능력", "Step 2"],
+              ["Objective", "목적, 객관적인", "선택의 목표와 연결", "Step 4"]
+            ]
+          },
+          {
+            title: "비용과 부담",
+            items: [
+              ["Burden", "부담", "돈, 책임, 의무가 무거운 상태", "Step 3"],
+              ["Monetary", "금전의", "money 관련 표현", "Step 3"],
+              ["Costly", "비용이 많이 드는", "expensive와 비슷", "Step 3"],
+              ["Consequence", "결과", "선택의 뒤에 따라오는 것", "Step 3"],
+              ["Outweigh", "더 중요하다, 능가하다", "장점이 단점보다 클 때", "Step 4"]
+            ]
+          },
+          {
+            title: "경제 구조와 변화",
+            items: [
+              ["Wage", "임금", "일의 대가로 받는 돈", "Step 4"],
+              ["Innovation", "혁신", "새로운 기술과 방식의 변화", "Step 4"],
+              ["Device", "기기, 장치", "기술 변화의 기본 단위", "Step 4"],
+              ["Virtual", "가상의", "디지털 공간과 연결", "Step 4"],
+              ["Fundamental", "근본적인", "가장 기본이 되는 핵심", "Step 4"]
+            ]
+          }
+        ],
+        bonus: ["Proceeds", "Acquire", "Commodity", "Investment", "Bankruptcy"],
+        sentences: [
+          ["desire, valuable", "People often confuse a simple need with a deeper desire, especially when an item looks highly valuable.", "사람들은 물건이 매우 가치 있어 보일 때 단순한 필요와 더 깊은 욕망을 자주 혼동한다."],
+          ["afford, purchase", "Even when consumers want a product, they may delay the purchase because they cannot afford it right away.", "소비자들은 어떤 물건을 원해도 바로 그것을 살 여유가 없어서 구매를 미룰 수 있다."],
+          ["possess, preferable", "Some people try to possess the newest model, while others think keeping the old one is more preferable.", "어떤 사람들은 최신 모델을 소유하려 하고, 다른 사람들은 예전 것을 유지하는 편이 더 낫다고 생각한다."],
+          ["burden, monetary", "A large loan can become a serious burden, especially when a family is already facing monetary pressure.", "큰 대출은 특히 가족이 이미 금전적 압박을 받고 있을 때 심각한 부담이 될 수 있다."],
+          ["costly, consequence", "A small mistake in financial planning may lead to a very costly consequence later.", "재정 계획에서의 작은 실수는 나중에 매우 큰 비용이 드는 결과로 이어질 수 있다."],
+          ["wage, capacity", "If wages do not rise, workers may lose the capacity to buy basic goods.", "임금이 오르지 않으면 노동자들은 기본 물품을 살 능력을 잃을 수 있다."],
+          ["innovation, device", "Technological innovation often begins with a simple device that changes everyday life.", "기술 혁신은 종종 일상생활을 바꾸는 단순한 장치에서 시작된다."],
+          ["virtual, objective", "Some companies use virtual spaces to achieve the objective of reducing marketing costs.", "일부 기업들은 마케팅 비용을 줄인다는 목표를 달성하기 위해 가상 공간을 활용한다."],
+          ["outweigh, fundamental", "In economic policy, long-term benefits may outweigh short-term losses if the reform is fundamental enough.", "경제 정책에서는 개혁이 충분히 근본적이라면 장기적 이익이 단기적 손실보다 더 클 수 있다."],
+          ["investment, bankruptcy", "Poor investment decisions can push even a promising business toward bankruptcy.", "잘못된 투자 결정은 유망한 사업조차 파산으로 몰아갈 수 있다."]
+        ],
+        quiz: [
+          { type: "뜻", q: "desire", choices: ["가치", "욕망, 욕구", "구매", "임금"], answer: 1, explanation: "desire는 want보다 더 강한 욕구다." },
+          { type: "뜻", q: "afford", choices: ["살 여유가 있다", "포함하다", "유지하다", "제한하다"], answer: 0, explanation: "돈이나 능력이 있어서 살 수 있다는 뜻이다." },
+          { type: "뜻", q: "purchase", choices: ["결과", "선택지", "구매하다, 구매", "파산"], answer: 2, explanation: "buy보다 더 시험형인 표현이다." },
+          { type: "뜻", q: "burden", choices: ["부담", "장치", "혁신", "공감"], answer: 0, explanation: "돈, 책임, 의무가 무겁게 느껴지는 상태다." },
+          { type: "뜻", q: "consequence", choices: ["분석", "근본", "결과", "지위"], answer: 2, explanation: "선택 뒤에 따라오는 결과다." },
+          { type: "뜻", q: "wage", choices: ["규칙", "임금", "관점", "감정"], answer: 1, explanation: "일의 대가로 받는 돈이다." },
+          { type: "뜻", q: "outweigh", choices: ["능가하다, 더 중요하다", "도입하다", "추론하다", "의심하다"], answer: 0, explanation: "장점이 단점보다 더 클 때 쓴다." },
+          { type: "문장", q: "Even when consumers want a product, they may delay the purchase because they cannot afford it right away.", choices: ["소비자들은 물건을 원하면 바로 산다.", "소비자들은 돈이 부족하면 구매를 미룰 수 있다.", "소비자들은 항상 더 싼 물건만 고른다."], answer: 1, explanation: "afford가 안 되어서 purchase를 delay한다는 뜻이다." },
+          { type: "문장", q: "A small mistake in financial planning may lead to a very costly consequence later.", choices: ["즐거운 보상", "사소한 변화", "큰 대가가 드는 결과"], answer: 2, explanation: "costly consequence는 비용이 크게 드는 결과다." },
+          { type: "문장", q: "In economic policy, long-term benefits may outweigh short-term losses if the reform is fundamental enough.", choices: ["단기 손실이 항상 장기 이익보다 중요하다.", "충분히 근본적인 개혁이라면 장기 이익이 더 클 수 있다.", "경제 정책은 항상 실패한다."], answer: 1, explanation: "outweigh와 fundamental을 함께 읽어야 한다." }
+        ]
+      },
+      {
+        id: "lesson2",
+        short: "2회차",
+        title: "심리·사회",
+        hero: "생각, 감정, 관계, 구조를 읽는 기본 프레임을 만드는 회차",
+        targets: ["04-연습 11", "05-연습 09", "07-Analysis", "07-연습 07", "07-연습 08"],
+        steps: [
+          {
+            title: "think에서 viewpoint로",
+            bullets: [
+              "생각이 모여 viewpoint가 된다.",
+              "하지만 생각은 bias 때문에 기울어질 수 있다.",
+              "독해에서는 neutral하게 읽으려는 태도가 중요하다."
+            ],
+            focus: "viewpoint, bias, neutral, distinct"
+          },
+          {
+            title: "feel에서 emotional로",
+            bullets: [
+              "감정은 emotional 상태로 드러난다.",
+              "태도 attitude와 반복되는 tendency로 연결된다."
+            ],
+            focus: "emotional, attitude, tendency, suspect"
+          },
+          {
+            title: "people에서 relationship으로",
+            bullets: [
+              "사람들은 relationship 속에서 살아간다.",
+              "문제는 여러 사람을 involve하고 때로 conflict로 커진다.",
+              "그래서 전체 context를 봐야 한다."
+            ],
+            focus: "relationship, involve, conflict, context"
+          },
+          {
+            title: "order에서 hierarchy로",
+            bullets: [
+              "사회에는 hierarchy가 있다.",
+              "글은 factor와 feature를 제시하며 분석한다.",
+              "demonstrate와 analysis가 보이면 설명 구조를 읽는다."
+            ],
+            focus: "hierarchy, factor, feature, demonstrate, analysis"
+          }
+        ],
+        vocabGroups: [
+          {
+            title: "생각과 판단",
+            items: [
+              ["Bias", "편견, 편향", "생각이 한쪽으로 기우는 상태", "Step 1"],
+              ["Viewpoint", "관점", "문제를 보는 입장", "Step 1"],
+              ["Neutral", "중립적인", "한쪽에 치우치지 않음", "Step 1"],
+              ["Distinct", "뚜렷이 다른", "차이를 분명히 보여 줌", "Step 1"],
+              ["Suspect", "의심하다", "판단이 확실하지 않을 때", "Step 2"]
+            ]
+          },
+          {
+            title: "감정과 태도",
+            items: [
+              ["Emotional", "감정적인", "feel과 가장 쉽게 연결", "Step 2"],
+              ["Attitude", "태도", "감정과 생각이 겉으로 드러나는 방식", "Step 2"],
+              ["Tendency", "경향", "반복되는 방향성", "Step 2"],
+              ["Feature", "특징", "눈에 띄는 성질", "Step 4"],
+              ["Factor", "요인", "결과를 만드는 이유", "Step 4"]
+            ]
+          },
+          {
+            title: "관계와 사회",
+            items: [
+              ["Relationship", "관계", "사람과 사람의 연결", "Step 3"],
+              ["Involve", "포함하다, 관련시키다", "여러 사람을 끌어들임", "Step 3"],
+              ["Conflict", "갈등", "관계가 부딪히는 상태", "Step 3"],
+              ["Context", "맥락", "사건이 놓인 전체 상황", "Step 3"],
+              ["Inclusive", "포괄적인", "모두를 포함하려는 방향", "Step 3"]
+            ]
+          },
+          {
+            title: "구조와 설명",
+            items: [
+              ["Hierarchy", "위계, 서열", "조직과 사회의 위아래 구조", "Step 4"],
+              ["Demonstrate", "보여 주다, 입증하다", "예시와 근거로 드러냄", "Step 4"],
+              ["Analysis", "분석", "내용을 나눠 살펴봄", "Step 4"],
+              ["Official", "공식적인", "제도적으로 인정된 상태", "Step 4"],
+              ["Maintain", "유지하다", "관계와 제도를 계속 지킴", "Step 3-4"]
+            ]
+          }
+        ],
+        bonus: ["Impartiality", "Criticism", "Status", "Appropriate", "Detachment"],
+        sentences: [
+          ["viewpoint, bias", "A person's viewpoint may look reasonable at first, but hidden bias can still shape the conclusion.", "한 사람의 관점은 처음에는 타당해 보여도, 숨겨진 편향이 여전히 결론을 좌우할 수 있다."],
+          ["neutral, distinct", "Good readers try to stay neutral and make a distinct separation between fact and opinion.", "좋은 독자는 중립적인 태도를 유지하며 사실과 의견을 분명히 구분하려 한다."],
+          ["emotional, attitude", "When people become too emotional, their attitude toward others may change quickly.", "사람들이 너무 감정적이 되면 다른 사람을 대하는 태도가 빠르게 바뀔 수 있다."],
+          ["tendency, suspect", "Researchers suspect that teenagers have a stronger tendency to respond immediately to social pressure.", "연구자들은 청소년들이 사회적 압박에 즉각 반응하는 경향이 더 강하다고 의심한다."],
+          ["relationship, conflict", "A healthy relationship can break down when small misunderstandings grow into open conflict.", "건강한 관계도 작은 오해가 드러난 갈등으로 커질 때 무너질 수 있다."],
+          ["involve, context", "Moral decisions often involve more than one person, so we must look at the full context.", "도덕적 결정은 종종 한 사람 이상을 포함하므로 우리는 전체 맥락을 봐야 한다."],
+          ["inclusive, official", "An inclusive school policy becomes more effective when it is supported by official rules.", "포괄적인 학교 정책은 공식 규정의 뒷받침을 받을 때 더 효과적이 된다."],
+          ["hierarchy, status", "In a strict hierarchy, people with lower status may hesitate to share bad news.", "엄격한 위계 구조에서는 지위가 낮은 사람들이 나쁜 소식을 전하는 것을 주저할 수 있다."],
+          ["demonstrate, analysis", "The writer uses examples to demonstrate that careful analysis is necessary before making a social judgment.", "글쓴이는 사회적 판단을 내리기 전에 신중한 분석이 필요하다는 점을 보여 주기 위해 예시를 사용한다."],
+          ["maintain, impartiality", "Judges must maintain impartiality even when public opinion is strongly divided.", "판사들은 여론이 크게 갈릴 때에도 공정성을 유지해야 한다."]
+        ],
+        quiz: [
+          { type: "뜻", q: "bias", choices: ["편견, 편향", "포괄성", "미덕", "장치"], answer: 0, explanation: "bias는 한쪽으로 기운 생각이다." },
+          { type: "뜻", q: "viewpoint", choices: ["가치", "관점", "임금", "공감"], answer: 1, explanation: "문제를 보는 입장을 뜻한다." },
+          { type: "뜻", q: "emotional", choices: ["공식적인", "감정적인", "중립적인", "순간적인"], answer: 1, explanation: "feel과 바로 연결되는 단어다." },
+          { type: "뜻", q: "relationship", choices: ["관계", "결과", "근본", "제도"], answer: 0, explanation: "사람과 사람의 연결이다." },
+          { type: "뜻", q: "conflict", choices: ["합의", "갈등", "포용", "능력"], answer: 1, explanation: "서로 부딪히는 상태다." },
+          { type: "뜻", q: "hierarchy", choices: ["위계, 서열", "의심", "분석", "비용"], answer: 0, explanation: "사회와 조직의 위아래 구조다." },
+          { type: "뜻", q: "inclusive", choices: ["배타적인", "포괄적인", "엄격한", "경제적인"], answer: 1, explanation: "누군가를 빼지 않고 포함하는 방향이다." },
+          { type: "문장", q: "A person's viewpoint may look reasonable at first, but hidden bias can still shape the conclusion.", choices: ["사람의 관점은 항상 완전히 공정하다.", "숨겨진 편향이 결론에 영향을 줄 수 있다.", "결론은 관점과 관계가 없다."], answer: 1, explanation: "bias가 conclusion을 shape한다." },
+          { type: "문장", q: "In a strict hierarchy, people with lower status may hesitate to share bad news.", choices: ["더 높은 권력을 가진 위치", "더 낮은 지위", "더 좋은 소식"], answer: 1, explanation: "lower status는 더 낮은 지위다." },
+          { type: "문장", q: "An inclusive school policy becomes more effective when it is supported by official rules.", choices: ["포괄적 정책은 공식 규정이 없어야 더 효과적이다.", "학교 정책은 누구도 포함하지 않아야 한다.", "포괄적 정책은 공식 규정의 뒷받침을 받을 때 더 효과적일 수 있다."], answer: 2, explanation: "inclusive policy + official rules의 결합을 읽으면 된다." }
+        ]
+      },
+      {
+        id: "lesson3",
+        short: "3회차",
+        title: "심리",
+        hero: "감정 -> 판단 -> 행동 흐름으로 심리 지문을 읽는 집중 회차",
+        targets: ["04-연습 01", "05-연습 07", "05-연습 11", "06-Analysis", "06-연습 07", "07-연습 01", "07-연습 05"],
+        steps: [
+          {
+            title: "feel에서 empathy로",
+            bullets: [
+              "다른 사람 감정을 함께 느끼는 empathy를 익힌다.",
+              "마음 상태를 mental로, 너무 강한 상태를 overwhelm으로 읽는다."
+            ],
+            focus: "empathy, mental, overwhelm, relieve"
+          },
+          {
+            title: "act에서 impulse로",
+            bullets: [
+              "생각보다 먼저 나가는 행동을 impulse로 읽는다.",
+              "안쪽의 힘은 urge, 시작점은 trigger, 밀어붙이는 힘은 compel이다."
+            ],
+            focus: "impulse, urge, trigger, compel"
+          },
+          {
+            title: "know에서 familiarity로",
+            bullets: [
+              "자주 봐서 익숙해진 상태가 familiarity다.",
+              "기억을 끄집어내는 recollect, 뜻을 해석하는 interpret를 함께 본다."
+            ],
+            focus: "familiarity, recollect, interpret, detect"
+          },
+          {
+            title: "think에서 reflective로",
+            bullets: [
+              "바로 반응하지 않는 태도가 reflective다.",
+              "objective하게 보려 하고, overwhelm을 overcome하며 relieve하려 한다."
+            ],
+            focus: "reflective, objective, overcome, relieve"
+          }
+        ],
+        vocabGroups: [
+          {
+            title: "감정과 공감",
+            items: [
+              ["Empathy", "공감", "다른 사람 감정을 함께 느끼는 것", "Step 1"],
+              ["Mental", "정신의, 마음의", "mind와 연결", "Step 1"],
+              ["Overwhelm", "압도하다", "감정이 너무 강해 버거움", "Step 1"],
+              ["Relieve", "완화하다", "부담이나 감정을 줄여 줌", "Step 1-4"],
+              ["Genuine", "진짜의, 진심의", "겉이 아니라 진짜 감정", "Step 1"]
+            ]
+          },
+          {
+            title: "충동과 행동",
+            items: [
+              ["Impulse", "충동", "생각보다 먼저 나오는 행동", "Step 2"],
+              ["Urge", "충동, 강한 욕구", "안에서 밀어붙이는 힘", "Step 2"],
+              ["Trigger", "촉발하다, 계기", "반응을 시작하게 하는 원인", "Step 2"],
+              ["Compel", "강요하다, 억지로 하게 하다", "강한 힘으로 행동하게 함", "Step 2"],
+              ["Momentary", "순간적인", "짧고 빠른 상태", "Step 2"]
+            ]
+          },
+          {
+            title: "익숙함과 인지",
+            items: [
+              ["Familiarity", "친숙함", "자주 봐서 익숙한 상태", "Step 3"],
+              ["Recollect", "기억해 내다", "다시 머릿속에서 꺼냄", "Step 3"],
+              ["Interpret", "해석하다", "본 것을 의미로 바꿈", "Step 3"],
+              ["Detect", "발견하다, 감지하다", "숨은 것도 알아차림", "Step 3"],
+              ["Accustomed", "익숙한", "be used to와 비슷", "Step 3"]
+            ]
+          },
+          {
+            title: "판단과 조절",
+            items: [
+              ["Reflective", "성찰하는", "한 번 더 생각해 보는 태도", "Step 4"],
+              ["Objective", "객관적인", "감정에서 조금 떨어져 보는 태도", "Step 4"],
+              ["Overcome", "극복하다", "어려운 감정이나 문제를 이김", "Step 4"],
+              ["Sensation", "감각, 느낌", "몸이나 마음에 바로 오는 느낌", "Step 1"],
+              ["Casual", "대수롭지 않은, 무심한", "깊게 생각하지 않는 태도", "Step 4"]
+            ]
+          }
+        ],
+        bonus: ["Induce", "Imprint", "Distortion", "Subtlety", "Validation"],
+        sentences: [
+          ["empathy, mental", "True empathy requires not only kindness but also the mental ability to understand another person's situation.", "진정한 공감은 친절함뿐 아니라 다른 사람의 상황을 이해하는 정신적 능력도 필요로 한다."],
+          ["overwhelm, relieve", "Too much information can overwhelm students, so teachers should break tasks into smaller parts to relieve stress.", "정보가 너무 많으면 학생들을 압도할 수 있으므로 교사는 과제를 더 작은 부분으로 나누어 스트레스를 완화해야 한다."],
+          ["impulse, urge", "Many online purchases are made from impulse, not from a real urge based on long-term need.", "많은 온라인 구매는 장기적 필요에 기반한 진짜 욕구가 아니라 충동에서 이루어진다."],
+          ["trigger, compel", "A simple message alert can trigger anxiety and compel teenagers to check their phones immediately.", "단순한 메시지 알림은 불안을 촉발하고 청소년들로 하여금 즉시 휴대전화를 확인하게 만들 수 있다."],
+          ["familiarity, recollect", "People often mistake familiarity for true memory and believe they can recollect details they never actually learned.", "사람들은 종종 친숙함을 진짜 기억으로 착각하고 실제로 배우지 않은 세부 내용을 기억해 낼 수 있다고 믿는다."],
+          ["interpret, detect", "Skilled readers interpret emotional signals quickly and detect hidden meanings in a conversation.", "숙련된 독자들은 감정 신호를 빠르게 해석하고 대화 속 숨은 의미를 발견한다."],
+          ["reflective, objective", "A reflective person tries to become more objective before making an important decision.", "성찰적인 사람은 중요한 결정을 내리기 전에 더 객관적이 되려고 노력한다."],
+          ["overcome, genuine", "Children can overcome fear more easily when they receive genuine emotional support from adults.", "아이들은 어른들로부터 진심 어린 정서적 지지를 받을 때 두려움을 더 쉽게 극복할 수 있다."],
+          ["sensation, momentary", "The pleasure of social approval may be intense, but it is often only a momentary sensation.", "사회적 인정에서 오는 즐거움은 강렬할 수 있지만 종종 순간적인 감각에 불과하다."],
+          ["validation, distortion", "When people seek constant validation, they may develop a distortion in how they view themselves.", "사람들이 끊임없는 인정을 구할 때, 자신을 바라보는 방식에 왜곡이 생길 수 있다."]
+        ],
+        quiz: [
+          { type: "뜻", q: "empathy", choices: ["공감", "위계", "규칙", "임금"], answer: 0, explanation: "다른 사람 감정을 함께 느끼는 것이다." },
+          { type: "뜻", q: "impulse", choices: ["근거", "충동", "제도", "방식"], answer: 1, explanation: "생각보다 먼저 튀어나오는 행동이다." },
+          { type: "뜻", q: "trigger", choices: ["촉발하다, 계기", "포함하다", "대표하다", "보편적이다"], answer: 0, explanation: "어떤 반응을 시작하게 한다." },
+          { type: "뜻", q: "familiarity", choices: ["낯섦", "친숙함", "제한", "비판"], answer: 1, explanation: "자주 봐서 익숙한 상태다." },
+          { type: "뜻", q: "reflective", choices: ["공식적인", "성찰하는", "가상인", "경제적인"], answer: 1, explanation: "바로 반응하지 않고 돌아보는 태도다." },
+          { type: "뜻", q: "overcome", choices: ["극복하다", "의심하다", "감지하다", "형식화하다"], answer: 0, explanation: "어려운 문제나 감정을 이겨 내는 것이다." },
+          { type: "뜻", q: "validation", choices: ["왜곡", "인정, 타당화", "감각", "습관"], answer: 1, explanation: "내 감정이나 생각이 맞다고 인정받는 것이다." },
+          { type: "문장", q: "A simple message alert can trigger anxiety and compel teenagers to check their phones immediately.", choices: ["메시지 알림은 청소년들을 차분하게 만든다.", "메시지 알림은 불안을 유발하고 바로 휴대폰을 보게 만들 수 있다.", "청소년들은 절대 휴대폰을 바로 확인하지 않는다."], answer: 1, explanation: "trigger anxiety와 compel을 같이 읽으면 된다." },
+          { type: "문장", q: "People often mistake familiarity for true memory.", choices: ["낯섦", "친숙함", "두려움"], answer: 1, explanation: "familiarity는 친숙함이다." },
+          { type: "문장", q: "A reflective person tries to become more objective before making an important decision.", choices: ["성찰적인 사람은 중요한 결정 전에 더 객관적으로 보려고 한다.", "성찰적인 사람은 생각하지 않고 바로 결정한다.", "객관적인 사람은 항상 감정이 없다."], answer: 0, explanation: "reflective와 objective의 관계를 읽는 문제다." }
+        ]
+      },
+      {
+        id: "lesson4",
+        short: "4회차",
+        title: "사회·인문",
+        hero: "가치판단, 제도, 언어, 공공성을 문과형 지문 프레임으로 읽는 회차",
+        targets: ["04-연습 03", "04-연습 09", "06-연습 09", "07-연습 09", "07-연습 11", "07-연습 12"],
+        steps: [
+          {
+            title: "right에서 virtue로",
+            bullets: [
+              "옳고 그름을 virtue와 ethical로 끌어올린다.",
+              "개인 감정과 가치 판단을 distinct하게 구분한다."
+            ],
+            focus: "virtue, ethical, criticism, distinct"
+          },
+          {
+            title: "say에서 discourse로",
+            bullets: [
+              "단순한 말하기를 discourse라는 사회적 논의로 읽는다.",
+              "주장과 예시는 represent와 framework로 구조화된다."
+            ],
+            focus: "discourse, represent, framework, comprehension"
+          },
+          {
+            title: "rule에서 institution으로",
+            bullets: [
+              "authority가 규칙을 세우고 institution이 제도로 굳힌다.",
+              "법과 공적 장치는 legislation, official로 읽는다."
+            ],
+            focus: "authority, institution, legislation, official"
+          },
+          {
+            title: "all에서 universal로",
+            bullets: [
+              "좋은 제도는 include의 방향을 가진다.",
+              "universal, establish, foundation, restrict가 공공성 문장을 읽는 핵심이다."
+            ],
+            focus: "include, universal, establish, foundation, restrict"
+          }
+        ],
+        vocabGroups: [
+          {
+            title: "가치와 판단",
+            items: [
+              ["Virtue", "미덕", "좋은 성품과 반복된 좋은 행동", "Step 1"],
+              ["Ethical", "윤리적인", "옳고 그름의 기준과 연결", "Step 1"],
+              ["Criticism", "비판", "가치 판단 뒤에 나오는 평가", "Step 1"],
+              ["Objective", "목적, 객관적인", "주장과 제도의 목표", "Step 1-4"],
+              ["Distinct", "뚜렷이 다른", "개념 차이를 분명히 함", "Step 1"]
+            ]
+          },
+          {
+            title: "말과 사고",
+            items: [
+              ["Discourse", "담론, 담화", "사회적 차원의 논의", "Step 2"],
+              ["Represent", "나타내다, 대표하다", "어떤 생각이나 가치를 보여 줌", "Step 2"],
+              ["Framework", "틀, 체계", "생각을 정리하는 뼈대", "Step 2"],
+              ["Formalization", "형식화", "생각이 정식 형태를 갖춤", "Step 2"],
+              ["Convention", "관습, 관례", "사회가 익숙하게 받아들인 방식", "Step 2"]
+            ]
+          },
+          {
+            title: "제도와 권위",
+            items: [
+              ["Authority", "권위, 권한", "규칙을 세우고 지시하는 힘", "Step 3"],
+              ["Institution", "제도, 기관", "지속적으로 운영되는 사회 구조", "Step 3"],
+              ["Legislation", "법률, 입법", "규칙이 법으로 굳어진 단계", "Step 3"],
+              ["Official", "공식적인", "제도적으로 인정된 상태", "Step 3"],
+              ["Restrict", "제한하다", "제도는 자유를 제한하기도 함", "Step 4"]
+            ]
+          },
+          {
+            title: "공공성과 보편성",
+            items: [
+              ["Include", "포함하다", "모두를 넣는 방향", "Step 4"],
+              ["Universal", "보편적인", "특정 집단이 아니라 모두에게 해당", "Step 4"],
+              ["Establish", "세우다, 확립하다", "제도와 원칙을 마련함", "Step 4"],
+              ["Foundation", "토대, 기반", "사회가 서 있는 기본 바닥", "Step 4"],
+              ["Degree", "정도, 수준", "얼마나 큰지 나타내는 표현", "Step 4"]
+            ]
+          }
+        ],
+        bonus: ["Pose", "Formulate", "Consensus", "Derive", "Comprehension"],
+        sentences: [
+          ["virtue, ethical", "Aristotle argued that virtue is not a single act but a habit of making ethical choices.", "아리스토텔레스는 미덕이 한 번의 행동이 아니라 윤리적 선택을 하는 습관이라고 주장했다."],
+          ["criticism, distinct", "Public criticism becomes more useful when people make a distinct distinction between personal dislike and moral judgment.", "대중의 비판은 사람들이 개인적 비호감과 도덕적 판단을 분명히 구분할 때 더 유용해진다."],
+          ["discourse, represent", "Political discourse does not simply describe society; it can also represent what people think is normal.", "정치적 담론은 사회를 단순히 묘사하는 데 그치지 않고, 사람들이 무엇을 정상으로 여기는지도 나타낼 수 있다."],
+          ["framework, formalization", "Schools need a clear framework for discussion before the formalization of any new rule.", "학교는 새로운 규칙을 형식화하기 전에 토론을 위한 분명한 틀이 필요하다."],
+          ["authority, institution", "When authority is trusted, an institution can guide people's behavior more effectively.", "권위가 신뢰받을 때 제도는 사람들의 행동을 더 효과적으로 이끌 수 있다."],
+          ["legislation, official", "Social change becomes stronger when it is supported not only by ideas but also by official legislation.", "사회 변화는 생각뿐 아니라 공식적인 법률의 뒷받침을 받을 때 더 강해진다."],
+          ["include, universal", "A good public policy should include vulnerable people instead of pretending that one solution is universal for everyone.", "좋은 공공 정책은 하나의 해결책이 모두에게 보편적이라고 가장하는 대신 취약한 사람들을 포함해야 한다."],
+          ["establish, foundation", "Hygiene education can establish the foundation for better public health long before illness appears.", "위생 교육은 질병이 나타나기 훨씬 전에 더 나은 공중보건의 토대를 세울 수 있다."],
+          ["restrict, degree", "Governments sometimes restrict personal choice to a certain degree in order to protect the public.", "정부는 공공을 보호하기 위해 때때로 개인의 선택을 어느 정도 제한한다."],
+          ["consensus, comprehension", "Real comprehension of a social issue is difficult because public consensus often changes over time.", "사회 문제에 대한 진정한 이해는 대중의 합의가 시간에 따라 자주 바뀌기 때문에 어렵다."]
+        ],
+        quiz: [
+          { type: "뜻", q: "virtue", choices: ["미덕", "갈등", "가상 공간", "편향"], answer: 0, explanation: "좋은 성품과 반복된 좋은 행동을 뜻한다." },
+          { type: "뜻", q: "ethical", choices: ["윤리적인", "공감하는", "순간적인", "금전의"], answer: 0, explanation: "옳고 그름의 기준과 연결된다." },
+          { type: "뜻", q: "discourse", choices: ["담론, 담화", "감정", "임금", "제한"], answer: 0, explanation: "사회적 논의라는 느낌이 중요하다." },
+          { type: "뜻", q: "authority", choices: ["권위, 권한", "이해", "포용", "친숙함"], answer: 0, explanation: "규칙을 세우고 지시하는 힘이다." },
+          { type: "뜻", q: "institution", choices: ["제도, 기관", "감각", "대가", "장치"], answer: 0, explanation: "지속적으로 운영되는 사회 구조다." },
+          { type: "뜻", q: "universal", choices: ["공식적인", "보편적인", "객관적인", "근본적인"], answer: 1, explanation: "특정 집단이 아닌 모두에게 해당한다." },
+          { type: "뜻", q: "foundation", choices: ["지위", "토대, 기반", "비판", "수익금"], answer: 1, explanation: "무언가가 서 있는 기본 바닥이다." },
+          { type: "문장", q: "Aristotle argued that virtue is not a single act but a habit of making ethical choices.", choices: ["미덕은 한 번의 행동으로 완성된다.", "미덕은 윤리적 선택을 반복하는 습관과 관련 있다.", "윤리적 선택은 중요하지 않다."], answer: 1, explanation: "single act가 아니라 habit of ethical choices다." },
+          { type: "문장", q: "Social change becomes stronger when it is supported not only by ideas but also by official legislation.", choices: ["비공식 소문", "개인 취향", "공식적인 법률"], answer: 2, explanation: "official legislation은 공식적인 법률이다." },
+          { type: "문장", q: "A good public policy should include vulnerable people instead of pretending that one solution is universal for everyone.", choices: ["좋은 정책은 취약한 사람들을 포함해야 한다.", "하나의 해결책은 항상 모두에게 완벽하게 맞다.", "좋은 정책은 약한 사람들을 제외해야 한다."], answer: 0, explanation: "include vulnerable people이 핵심이다." }
+        ]
+      }
+    ];
+
+    let currentLessonIndex = 0;
+    let currentPanel = "lesson";
+    const quizSelections = {};
+    const flashState = {};
+
+    const lessonTabs = document.getElementById("lesson-tabs");
+    const lessonPanel = document.getElementById("lesson-panel");
+    const quizPanel = document.getElementById("quiz-panel");
+    const heroTitle = document.getElementById("hero-title");
+    const heroDesc = document.getElementById("hero-desc");
+
+    function renderLessonTabs() {
+      lessonTabs.innerHTML = lessons.map((lesson, index) => `
+        <button class="chip ${index === currentLessonIndex ? "active" : ""}" data-index="${index}">
+          <strong>${lesson.short}</strong>
+        </button>
+      `).join("");
+    }
+
+    function renderLessonPanel() {
+      const lesson = lessons[currentLessonIndex];
+      heroTitle.textContent = `${lesson.short} ${lesson.title}`;
+      heroDesc.textContent = lesson.hero;
+
+      lessonPanel.innerHTML = `
+        <section class="card">
+          <h2>이번 시간 목표</h2>
+          <p class="sub">${lesson.title} 관련 지문에서 자주 보이는 흐름을 먼저 익히고, 쉬운 단어에서 시험 단어로 연결해서 읽는 연습을 한다.</p>
+          <div class="tags">${lesson.targets.map(target => `<span class="tag">${target}</span>`).join("")}</div>
+        </section>
+        <section class="card">
+          <h2>단어 확장 메커니즘</h2>
+          ${lesson.steps.map((step, idx) => `
+            <article class="step">
+              <div class="step-index">${idx + 1}</div>
+              <h3>${step.title}</h3>
+              <ul>${step.bullets.map(line => `<li>${line}</li>`).join("")}</ul>
+              <div class="focus">핵심 단어: ${step.focus}</div>
+            </article>
+          `).join("")}
+        </section>
+        <section class="card">
+          <h2>단어 카드</h2>
+          <p class="sub">카드를 눌러 뜻과 메모를 확인하고, 이전/다음으로 넘기면서 반복한다.</p>
+          <div class="flashcard" id="flashcard">
+            <div class="flashcard-inner">
+              <div class="flashcard-face flashcard-front">
+                <div class="flashcard-word" id="flash-word"></div>
+                <div class="flashcard-sub" id="flash-step"></div>
+              </div>
+              <div class="flashcard-face flashcard-back">
+                <div class="flashcard-word" id="flash-meaning"></div>
+                <div class="flashcard-meta" id="flash-memo"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flash-actions">
+            <button class="flash-btn" id="flash-prev">이전</button>
+            <button class="flash-btn" id="flash-flip">뒤집기</button>
+            <button class="flash-btn" id="flash-next">다음</button>
+          </div>
+        </section>
+        <section class="card">
+          <h2>핵심 단어</h2>
+          <p class="sub">이번 회차 핵심 단어 20개를 4묶음으로 나눠서 익힌다.</p>
+          ${lesson.vocabGroups.map(group => `
+            <div class="vocab-group">
+              <h3>${group.title}</h3>
+              ${group.items.map(item => `
+                <div class="vocab-item">
+                  <div class="word">
+                    <strong>${item[0]}</strong>
+                    <span>${item[3]}</span>
+                  </div>
+                  <div class="meaning">${item[1]}</div>
+                  <div class="memo">${item[2]}</div>
+                </div>
+              `).join("")}
+            </div>
+          `).join("")}
+        </section>
+        <section class="card">
+          <h2>보너스 단어 5개</h2>
+          <div class="tags">${lesson.bonus.map(word => `<span class="tag">${word}</span>`).join("")}</div>
+        </section>
+        <section class="card">
+          <h2>독해 10문장</h2>
+          <p class="sub">영어 문장을 먼저 읽고 뜻을 생각한 뒤, 필요할 때만 해석을 확인한다.</p>
+          ${lesson.sentences.map((sentence, idx) => `
+            <article class="sentence" data-sentence="${idx}">
+              <div class="sentence-head">
+                <strong>${String(idx + 1).padStart(2, "0")} · ${sentence[0]}</strong>
+                <button class="toggle-korean">해석 보기</button>
+              </div>
+              <div class="english">${sentence[1]}</div>
+              <div class="korean">${sentence[2]}</div>
+            </article>
+          `).join("")}
+        </section>
+      `;
+    }
+
+    function getQuizKey() {
+      return lessons[currentLessonIndex].id;
+    }
+
+    function ensureQuizState() {
+      const key = getQuizKey();
+      if (!quizSelections[key]) {
+        quizSelections[key] = {
+          answers: Array(lessons[currentLessonIndex].quiz.length).fill(null),
+          checked: false,
+          wrongIndexes: [],
+          mode: "all"
+        };
+      }
+      return quizSelections[key];
+    }
+
+    function ensureFlashState() {
+      const key = getQuizKey();
+      if (!flashState[key]) {
+        flashState[key] = { index: 0, flipped: false };
+      }
+      return flashState[key];
+    }
+
+    function getFlatVocab(lesson) {
+      return lesson.vocabGroups.flatMap(group =>
+        group.items.map(item => ({
+          word: item[0],
+          meaning: item[1],
+          memo: item[2],
+          step: item[3]
+        }))
+      );
+    }
+
+    function renderFlashcard() {
+      const lesson = lessons[currentLessonIndex];
+      const vocab = getFlatVocab(lesson);
+      const state = ensureFlashState();
+      const current = vocab[state.index];
+      const card = document.getElementById("flashcard");
+      if (!card || !current) return;
+      card.classList.toggle("flipped", state.flipped);
+      document.getElementById("flash-word").textContent = current.word;
+      document.getElementById("flash-step").textContent = `${state.index + 1} / ${vocab.length} · ${current.step}`;
+      document.getElementById("flash-meaning").textContent = current.meaning;
+      document.getElementById("flash-memo").textContent = current.memo;
+    }
+
+    function renderQuizPanel() {
+      const lesson = lessons[currentLessonIndex];
+      const state = ensureQuizState();
+      const activeItems = state.mode === "wrongOnly" && state.wrongIndexes.length
+        ? state.wrongIndexes.map(index => ({ ...lesson.quiz[index], originalIndex: index }))
+        : lesson.quiz.map((item, index) => ({ ...item, originalIndex: index }));
+      const answeredCount = activeItems.filter(item => state.answers[item.originalIndex] !== null).length;
+      const score = state.checked
+        ? activeItems.reduce((sum, item) => sum + (state.answers[item.originalIndex] === item.answer ? 1 : 0), 0)
+        : null;
+
+      quizPanel.innerHTML = `
+        <section class="card">
+          <div class="quiz-header">
+            <div>
+              <h2>Mini Test</h2>
+              <p class="sub">단어 뜻 7문제, 문장 이해 3문제. 먼저 풀고 채점한 뒤, 틀린 문제만 다시 풀어 본다.</p>
+            </div>
+            <div class="score-pill">${state.checked ? `${score} / ${activeItems.length}` : `${answeredCount} / ${activeItems.length} 선택`}</div>
+          </div>
+        </section>
+        <section class="card">
+          ${activeItems.map((item, idx) => `
+            <article class="quiz-item" data-q="${item.originalIndex}">
+              <div class="question-type">${item.type} 문제 ${idx + 1}</div>
+              <h3>${item.q}</h3>
+              <div class="options">
+                ${item.choices.map((choice, choiceIdx) => {
+                  const selected = state.answers[item.originalIndex] === choiceIdx;
+                  const isCorrect = item.answer === choiceIdx;
+                  let extraClass = "";
+                  if (state.checked && isCorrect) extraClass = "correct";
+                  if (state.checked && selected && !isCorrect) extraClass = "wrong";
+                  if (!state.checked && selected) extraClass = "selected";
+                  return `<button class="option ${extraClass}" data-q="${item.originalIndex}" data-choice="${choiceIdx}">${choice}</button>`;
+                }).join("")}
+              </div>
+              <div class="result ${state.checked ? "show" : ""}">
+                정답: ${item.choices[item.answer]}<br>
+                해설: ${item.explanation}
+              </div>
+            </article>
+          `).join("")}
+        </section>
+        <div class="actions">
+          <button class="action secondary" id="reset-quiz">다시 풀기</button>
+          <button class="action secondary" id="retry-wrong" ${state.checked && state.wrongIndexes.length ? "" : "disabled"}>오답만 다시</button>
+          <button class="action primary" id="check-quiz">${state.checked ? "채점 완료" : "채점하기"}</button>
+        </div>
+      `;
+    }
+
+    function renderAll() {
+      renderLessonTabs();
+      renderLessonPanel();
+      renderQuizPanel();
+      renderFlashcard();
+      document.querySelectorAll(".panel").forEach(panel => panel.classList.remove("active"));
+      document.getElementById(`${currentPanel}-panel`).classList.add("active");
+      document.querySelectorAll(".segment button").forEach(button => {
+        button.classList.toggle("active", button.dataset.panel === currentPanel);
+      });
+    }
+
+    lessonTabs.addEventListener("click", (event) => {
+      const button = event.target.closest(".chip");
+      if (!button) return;
+      currentLessonIndex = Number(button.dataset.index);
+      renderAll();
+    });
+
+    document.querySelector(".segment").addEventListener("click", (event) => {
+      const button = event.target.closest("button");
+      if (!button) return;
+      currentPanel = button.dataset.panel;
+      renderAll();
+    });
+
+    lessonPanel.addEventListener("click", (event) => {
+      const button = event.target.closest(".toggle-korean");
+      if (button) {
+        const sentence = button.closest(".sentence");
+        sentence.classList.toggle("show");
+        button.textContent = sentence.classList.contains("show") ? "해석 숨기기" : "해석 보기";
+        return;
+      }
+
+      const flashcard = event.target.closest("#flashcard");
+      const prev = event.target.closest("#flash-prev");
+      const next = event.target.closest("#flash-next");
+      const flip = event.target.closest("#flash-flip");
+      const state = ensureFlashState();
+      const vocab = getFlatVocab(lessons[currentLessonIndex]);
+
+      if (flashcard || flip) {
+        state.flipped = !state.flipped;
+        renderFlashcard();
+        return;
+      }
+
+      if (prev) {
+        state.index = (state.index - 1 + vocab.length) % vocab.length;
+        state.flipped = false;
+        renderFlashcard();
+        return;
+      }
+
+      if (next) {
+        state.index = (state.index + 1) % vocab.length;
+        state.flipped = false;
+        renderFlashcard();
+      }
+    });
+
+    quizPanel.addEventListener("click", (event) => {
+      const option = event.target.closest(".option");
+      const resetButton = event.target.closest("#reset-quiz");
+      const checkButton = event.target.closest("#check-quiz");
+      const retryWrongButton = event.target.closest("#retry-wrong");
+      const state = ensureQuizState();
+      const lesson = lessons[currentLessonIndex];
+
+      if (option && !state.checked) {
+        const qIndex = Number(option.dataset.q);
+        const choiceIndex = Number(option.dataset.choice);
+        state.answers[qIndex] = choiceIndex;
+        renderQuizPanel();
+        return;
+      }
+
+      if (checkButton && !state.checked) {
+        state.checked = true;
+        state.wrongIndexes = lesson.quiz
+          .map((item, index) => ({ index, correct: state.answers[index] === item.answer }))
+          .filter(item => !item.correct)
+          .map(item => item.index);
+        renderQuizPanel();
+        return;
+      }
+
+      if (retryWrongButton && state.checked && state.wrongIndexes.length) {
+        state.mode = "wrongOnly";
+        state.checked = false;
+        state.wrongIndexes.forEach(index => {
+          state.answers[index] = null;
+        });
+        renderQuizPanel();
+        return;
+      }
+
+      if (resetButton) {
+        quizSelections[getQuizKey()] = {
+          answers: Array(lesson.quiz.length).fill(null),
+          checked: false,
+          wrongIndexes: [],
+          mode: "all"
+        };
+        renderQuizPanel();
+      }
+    });
+
+    renderAll();
+  </script>
+</body>
+</html>
