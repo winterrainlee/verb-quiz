@@ -269,23 +269,68 @@
       box-shadow: 0 10px 18px rgba(90, 40, 15, 0.12);
     }
 
-    .day-grid {
+    .control-stack {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .select-wrap {
+      display: grid;
       gap: 8px;
     }
 
-    .day-btn {
-      padding: 11px 8px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.84);
-      color: var(--muted);
+    .select-wrap span {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brand);
+    }
+
+    .day-select {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 16px;
       border: 1px solid var(--line);
-      font-size: 13px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--ink);
+      font: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      appearance: none;
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+
+    .view-switch {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 6px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+    }
+
+    .view-switch button,
+    .quiz-option,
+    .quiz-next,
+    .quiz-secondary {
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .view-switch button {
+      padding: 12px 10px;
+      border-radius: 14px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 14px;
       font-weight: 800;
     }
 
-    .day-btn.active {
+    .view-switch button.active {
       background: linear-gradient(135deg, var(--brand), #df8e2c);
       color: white;
       box-shadow: 0 10px 20px rgba(196, 91, 53, 0.18);
@@ -324,8 +369,7 @@
     }
 
     .word-head span {
-      font-size: 12px;
-      color: var(--muted);
+      flex: 0 0 auto;
     }
 
     .meaning {
@@ -338,6 +382,257 @@
 
     .wordbook-item.open .meaning {
       display: block;
+    }
+
+    .view-panel {
+      display: none;
+    }
+
+    .view-panel.active {
+      display: block;
+    }
+
+    .quiz-shell {
+      display: grid;
+      gap: 14px;
+    }
+
+    .quiz-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .quiz-progress,
+    .quiz-score,
+    .quiz-wrong,
+    .quiz-remaining {
+      font-size: 12px;
+      font-weight: 800;
+      padding: 8px 12px;
+      border-radius: 999px;
+    }
+
+    .quiz-progress {
+      background: rgba(47, 108, 99, 0.12);
+      color: var(--brand-2);
+    }
+
+    .quiz-score {
+      background: rgba(181, 82, 51, 0.12);
+      color: var(--brand);
+    }
+
+    .quiz-wrong {
+      background: rgba(182, 58, 58, 0.1);
+      color: var(--wrong);
+    }
+
+    .quiz-remaining {
+      background: rgba(217, 144, 43, 0.14);
+      color: #8a560d;
+    }
+
+    .quiz-word-card {
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,247,237,0.95));
+      border: 1px solid rgba(44, 36, 24, 0.07);
+    }
+
+    .quiz-word-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--brand-2);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .quiz-word {
+      font-size: 31px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--brand);
+      margin-bottom: 8px;
+    }
+
+    .quiz-hint {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .freq-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 10px;
+      min-width: 76px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .freq-badge.basic {
+      background: rgba(47, 108, 99, 0.12);
+      border-color: rgba(47, 108, 99, 0.18);
+      color: var(--brand-2);
+    }
+
+    .freq-badge.frequent {
+      background: rgba(217, 144, 43, 0.14);
+      border-color: rgba(217, 144, 43, 0.2);
+      color: #8a560d;
+    }
+
+    .freq-badge.occasional {
+      background: rgba(109, 101, 92, 0.1);
+      border-color: rgba(109, 101, 92, 0.16);
+      color: var(--muted);
+    }
+
+    .quiz-options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .quiz-option {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 16px;
+      text-align: left;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 700;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    }
+
+    .quiz-option:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(62, 45, 18, 0.08);
+    }
+
+    .quiz-option:disabled {
+      cursor: default;
+      opacity: 1;
+    }
+
+    .quiz-option.correct {
+      background: rgba(47, 125, 87, 0.12);
+      border-color: rgba(47, 125, 87, 0.3);
+      color: var(--ok);
+    }
+
+    .quiz-option.wrong {
+      background: rgba(182, 58, 58, 0.12);
+      border-color: rgba(182, 58, 58, 0.3);
+      color: var(--wrong);
+    }
+
+    .quiz-feedback {
+      display: none;
+      padding: 14px 16px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .quiz-feedback.show {
+      display: block;
+    }
+
+    .quiz-feedback.correct {
+      background: rgba(47, 125, 87, 0.12);
+      color: var(--ok);
+    }
+
+    .quiz-feedback.wrong {
+      background: rgba(182, 58, 58, 0.12);
+      color: var(--wrong);
+    }
+
+    .quiz-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .quiz-next,
+    .quiz-secondary {
+      flex: 1;
+      padding: 13px 14px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .quiz-next {
+      background: linear-gradient(135deg, var(--brand-deep), var(--brand));
+      color: white;
+      box-shadow: 0 12px 20px rgba(196, 91, 53, 0.18);
+    }
+
+    .quiz-secondary {
+      background: rgba(255,255,255,0.88);
+      color: var(--brand-2);
+      border: 1px solid var(--line);
+    }
+
+    .quiz-results {
+      display: none;
+      gap: 12px;
+    }
+
+    .quiz-results.active {
+      display: grid;
+    }
+
+    .result-stat {
+      padding: 16px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(47,108,99,0.14), rgba(255,255,255,0.9));
+      border: 1px solid rgba(47, 108, 99, 0.16);
+    }
+
+    .result-stat strong {
+      display: block;
+      font-size: 28px;
+      color: var(--brand-2);
+      margin-bottom: 4px;
+    }
+
+    .result-stat span,
+    .result-copy,
+    .wrong-list li {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .wrong-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .wrong-list strong {
+      color: var(--ink);
+    }
+
+    .empty-note {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(47, 108, 99, 0.08);
+      color: var(--brand-2);
+      font-size: 14px;
+      font-weight: 700;
     }
   </style>
 </head>
@@ -373,21 +668,71 @@
         <div class="topbar">
           <div>
             <h2>전체 단어장</h2>
-            <p>Day를 고른 뒤, 영단어와 힌트만 먼저 보고 단어를 눌러 뜻을 확인하면 된다. 다시 누르면 뜻이 다시 숨겨진다.</p>
           </div>
           <button class="home-btn" id="go-home" aria-label="홈으로">⌂</button>
         </div>
 
         <div class="card">
           <div class="card-label">Day Select</div>
-          <div class="day-grid" id="day-grid"></div>
+          <div class="control-stack">
+            <label class="select-wrap" for="day-select">
+              <select class="day-select" id="day-select"></select>
+            </label>
+            <div class="view-switch" id="view-switch">
+              <button class="active" type="button" data-view="wordbook">단어장 보기</button>
+              <button type="button" data-view="quiz">퀴즈 모드</button>
+            </div>
+          </div>
         </div>
 
         <div class="card">
-          <div class="card-label" id="day-label">DAY 1</div>
           <div class="card-title" id="day-title">DAY 1 단어 30개</div>
-          <div class="card-copy">영단어와 힌트만 먼저 보고 뜻을 떠올린 뒤, 단어를 눌러서 확인하자.</div>
-          <div id="word-list"></div>
+          <div class="card-copy" id="day-copy">영단어와 힌트만 먼저 보고 뜻을 떠올린 뒤, 단어를 눌러서 확인하자.</div>
+
+          <div class="view-panel active" id="wordbook-view">
+            <div id="word-list"></div>
+          </div>
+
+          <div class="view-panel" id="quiz-view">
+            <div class="quiz-shell" id="quiz-shell">
+              <div class="quiz-meta">
+                <div class="quiz-progress" id="quiz-progress">1 / 30 문제</div>
+                <div class="quiz-score" id="quiz-score">정답 0개</div>
+                <div class="quiz-wrong" id="quiz-wrong">오답 0개</div>
+                <div class="quiz-remaining" id="quiz-remaining">남은 문제 29개</div>
+              </div>
+
+              <div class="quiz-word-card">
+                <div class="quiz-word-label">Meaning Quiz</div>
+                <div class="quiz-word" id="quiz-word">annual</div>
+                <div class="quiz-hint" id="quiz-hint"><span class="freq-badge frequent">[자주 나옴]</span></div>
+              </div>
+
+              <div class="quiz-options" id="quiz-options"></div>
+              <div class="quiz-feedback" id="quiz-feedback"></div>
+
+              <div class="quiz-actions">
+                <button class="quiz-secondary" type="button" id="quiz-reset">처음부터 다시</button>
+                <button class="quiz-next" type="button" id="quiz-next" disabled>다음 문제</button>
+              </div>
+            </div>
+
+            <div class="quiz-results" id="quiz-results">
+              <div class="result-stat">
+                <strong id="result-accuracy">0%</strong>
+                <span id="result-summary">30문제 중 0문제 정답</span>
+              </div>
+              <div class="result-copy" id="result-copy"></div>
+              <div id="wrong-words-wrap">
+                <div class="card-label">틀린 단어</div>
+                <ul class="wrong-list" id="wrong-words"></ul>
+              </div>
+              <div class="quiz-actions">
+                <button class="quiz-secondary" type="button" id="retry-wrong">틀린 단어 다시 풀기</button>
+                <button class="quiz-next" type="button" id="back-to-wordbook">단어장으로 돌아가기</button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </section>
@@ -1039,39 +1384,345 @@
 
     const homePanel = document.getElementById("home-panel");
     const wordbookPanel = document.getElementById("wordbook-panel");
-    const dayGrid = document.getElementById("day-grid");
+    const daySelect = document.getElementById("day-select");
+    const viewSwitch = document.getElementById("view-switch");
     const wordList = document.getElementById("word-list");
-    const dayLabel = document.getElementById("day-label");
     const dayTitle = document.getElementById("day-title");
+    const dayCopy = document.getElementById("day-copy");
     const openWordbook = document.getElementById("open-wordbook");
     const goHome = document.getElementById("go-home");
+    const wordbookView = document.getElementById("wordbook-view");
+    const quizView = document.getElementById("quiz-view");
+    const quizShell = document.getElementById("quiz-shell");
+    const quizResults = document.getElementById("quiz-results");
+    const quizProgress = document.getElementById("quiz-progress");
+    const quizScore = document.getElementById("quiz-score");
+    const quizWrong = document.getElementById("quiz-wrong");
+    const quizRemaining = document.getElementById("quiz-remaining");
+    const quizWord = document.getElementById("quiz-word");
+    const quizHint = document.getElementById("quiz-hint");
+    const quizOptions = document.getElementById("quiz-options");
+    const quizFeedback = document.getElementById("quiz-feedback");
+    const quizNext = document.getElementById("quiz-next");
+    const quizReset = document.getElementById("quiz-reset");
+    const resultAccuracy = document.getElementById("result-accuracy");
+    const resultSummary = document.getElementById("result-summary");
+    const resultCopy = document.getElementById("result-copy");
+    const wrongWords = document.getElementById("wrong-words");
+    const wrongWordsWrap = document.getElementById("wrong-words-wrap");
+    const retryWrong = document.getElementById("retry-wrong");
+    const backToWordbook = document.getElementById("back-to-wordbook");
     let currentDay = 1;
+    let currentView = "wordbook";
+    let quizState = null;
+    let autoAdvanceTimer = null;
+    const basicWords = new Set([
+      "address", "afraid", "annual", "appreciate", "assistant", "bankruptcy", "barefoot",
+      "barrier", "capture", "coin", "combine", "comfortable", "comfy", "compare", "conduct",
+      "confuse", "context", "correct", "decorate", "deliver", "describe", "detect", "edge",
+      "evaluate", "examine", "explore", "express", "factor", "feature", "finite", "formal",
+      "fuel", "gravity", "grasp", "habitual", "host", "huge", "identity", "impose",
+      "impression", "insight", "investment", "landscape", "lazy", "majority", "maintain",
+      "measure", "modify", "notice", "numerous", "official", "patch", "personality",
+      "positive", "presence", "previous", "procedure", "proper", "praise", "register",
+      "reflect", "refund", "report", "resist", "reverse", "routine", "rural", "scenic",
+      "sentence", "shortage", "shallow", "similarity", "slight", "spot", "struggle",
+      "subject", "sufficient", "target", "tension", "toolkit", "translate", "unique",
+      "valuable", "variation", "vast", "vote", "wander", "witness"
+    ]);
+    const frequentWords = new Set([
+      "abandon", "abstract", "acquire", "adaptation", "adequate", "adverse", "analysis",
+      "announce", "approximation", "astonishment", "attribute", "calling", "cease", "clarification",
+      "clutter", "collective", "commodity", "compose", "compliment", "conceptualize",
+      "confront", "consequence", "constitute", "continuous", "contradict", "convention",
+      "convince", "costly", "crisis", "crucial", "currency", "custom", "debt", "decorate",
+      "define", "degrade", "degradation", "deliberate", "demonstrate", "depict", "deposit",
+      "devastating", "diminish", "disappointed", "discomfort", "discourse", "district",
+      "domestication", "duration", "electron", "elimination", "emergence", "embody", "enclose",
+      "ethical", "exceptional", "exceed", "exclusion", "exhaust", "exhibition", "expenditure",
+      "extract", "factual", "formalization", "frustration", "gloomy", "hospitalize", "humiliation",
+      "identity", "impulse", "inability", "incentive", "incorporate", "inhibit", "insight",
+      "instantaneous", "intensive", "internalize", "interpret", "intrigue", "invade", "kin",
+      "legacy", "livelihood", "luxury", "medieval", "methodology", "minority", "motive",
+      "obligation", "obsessive", "outbreak", "outfit", "overcome", "overwhelm", "packaging",
+      "particle", "pen", "pollster", "portray", "prevalence", "proceeds", "promote", "prompt",
+      "punishment", "reassure", "recipient", "reflective", "relative", "reputation", "respective",
+      "resort", "sculpture", "showcase", "shrink", "solidity", "specialization", "stimulus",
+      "strain", "stereotype", "subsequent", "sympathy", "tackle", "tolerate", "tropical",
+      "tryout", "ultimate", "validation", "venture", "vibrant", "vitality", "willingness"
+    ]);
 
-    function renderDays() {
-      dayGrid.innerHTML = Array.from({ length: 20 }, (_, index) => {
+    function clearAutoAdvanceTimer() {
+      if (!autoAdvanceTimer) return;
+      clearTimeout(autoAdvanceTimer);
+      autoAdvanceTimer = null;
+    }
+
+    function shuffle(array) {
+      const copy = [...array];
+      for (let index = copy.length - 1; index > 0; index -= 1) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        [copy[index], copy[randomIndex]] = [copy[randomIndex], copy[index]];
+      }
+      return copy;
+    }
+
+    function getDayWords(day) {
+      return schoolWordbook[day].map((item, index) => ({
+        id: `${day}-${index}`,
+        word: item[0],
+        meaning: item[1],
+        hint: item[2],
+        frequency: getFrequencyLabel(item[0])
+      }));
+    }
+
+    function getAllWordOptions() {
+      return Object.values(schoolWordbook)
+        .flat()
+        .map((item, index) => ({
+          id: `all-${index}`,
+          word: item[0],
+          meaning: item[1],
+          hint: item[2],
+          frequency: getFrequencyLabel(item[0])
+        }));
+    }
+
+    function normalizeWord(word) {
+      return word.toLowerCase().replace(/[^a-z]/g, "");
+    }
+
+    function getFrequencyLabel(word) {
+      const normalized = normalizeWord(word);
+      if (basicWords.has(normalized)) {
+        return { text: "기본", className: "basic" };
+      }
+      if (frequentWords.has(normalized)) {
+        return { text: "자주 나옴", className: "frequent" };
+      }
+      return { text: "가끔 나옴", className: "occasional" };
+    }
+
+    function createQuestionSet(words, optionPool) {
+      const order = shuffle(words.map((_, index) => index));
+      return order.map((wordIndex) => {
+        const currentWord = words[wordIndex];
+        const fallbackPool = optionPool && optionPool.length ? optionPool : getAllWordOptions();
+        const distractors = shuffle(
+          fallbackPool
+            .filter((item) => item.id !== currentWord.id && item.meaning !== currentWord.meaning)
+            .map((item) => item.meaning)
+            .filter((meaning, index, array) => array.indexOf(meaning) === index)
+        ).slice(0, 3);
+
+        return {
+          ...currentWord,
+          options: shuffle([currentWord.meaning, ...distractors])
+        };
+      });
+    }
+
+    function createQuizState(words, optionPool) {
+      return {
+        pool: words,
+        optionPool,
+        questions: createQuestionSet(words, optionPool),
+        currentIndex: 0,
+        correctCount: 0,
+        completed: false,
+        answered: false,
+        selectedAnswer: "",
+        wrongItems: []
+      };
+    }
+
+    function resetQuiz(words = getDayWords(currentDay), optionPool = getDayWords(currentDay)) {
+      quizState = createQuizState(words, optionPool);
+      renderQuiz();
+    }
+
+    function renderDayOptions() {
+      daySelect.innerHTML = Array.from({ length: 20 }, (_, index) => {
         const day = index + 1;
-        return `<button class="day-btn ${day === currentDay ? "active" : ""}" data-day="${day}">Day ${day}</button>`;
+        return `<option value="${day}">Day ${day}</option>`;
       }).join("");
+      daySelect.value = String(currentDay);
     }
 
     function renderWordList() {
-      const words = schoolWordbook[currentDay];
-      dayLabel.textContent = `DAY ${currentDay}`;
+      const words = getDayWords(currentDay);
       dayTitle.textContent = `DAY ${currentDay} 단어 30개`;
-      wordList.innerHTML = words.map((item, index) => `
+      wordList.innerHTML = words.map((item) => `
         <div class="wordbook-item">
           <button class="wordbook-toggle">
             <div class="word-head">
-              <strong>${item[0]}</strong>
-              <span>${item[2]}</span>
+              <strong>${item.word}</strong>
+              <span class="freq-badge ${item.frequency.className}">${item.frequency.text}</span>
             </div>
           </button>
-          <div class="meaning">${item[1]}</div>
+          <div class="meaning">${item.meaning}</div>
         </div>
       `).join("");
     }
 
+    function renderViewSwitch() {
+      [...viewSwitch.querySelectorAll("button")].forEach((button) => {
+        button.classList.toggle("active", button.dataset.view === currentView);
+      });
+
+      wordbookView.classList.toggle("active", currentView === "wordbook");
+      quizView.classList.toggle("active", currentView === "quiz");
+
+      if (currentView === "wordbook") {
+        dayCopy.textContent = "영단어와 힌트만 먼저 보고 뜻을 떠올린 뒤, 단어를 눌러서 확인하자.";
+      } else {
+        dayCopy.textContent = "영단어를 보고 뜻을 고르는 객관식 퀴즈다. 다 풀면 정답률과 틀린 단어 복습이 나온다.";
+      }
+    }
+
+    function renderQuizQuestion(question) {
+      const total = quizState.questions.length;
+      const wrongCount = quizState.wrongItems.length;
+      const remainingCount = total - quizState.currentIndex - 1;
+      quizProgress.textContent = `${quizState.currentIndex + 1} / ${quizState.questions.length} 문제`;
+      quizScore.textContent = `정답 ${quizState.correctCount}개`;
+      quizWrong.textContent = `오답 ${wrongCount}개`;
+      quizRemaining.textContent = `남은 문제 ${remainingCount}개`;
+      quizWord.textContent = question.word;
+      quizHint.innerHTML = `<span class="freq-badge ${question.frequency.className}">${question.frequency.text}</span>`;
+      quizOptions.innerHTML = question.options.map((option) => `
+        <button class="quiz-option" type="button" data-option="${option}">
+          ${option}
+        </button>
+      `).join("");
+      quizFeedback.className = "quiz-feedback";
+      quizFeedback.textContent = "";
+      quizNext.disabled = true;
+      quizNext.textContent = quizState.currentIndex === quizState.questions.length - 1 ? "결과 보기" : "다음 문제";
+    }
+
+    function renderQuizResults() {
+      const total = quizState.questions.length;
+      const accuracy = total ? Math.round((quizState.correctCount / total) * 100) : 0;
+      resultAccuracy.textContent = `${accuracy}%`;
+      resultSummary.textContent = `${total}문제 중 ${quizState.correctCount}문제 정답`;
+      quizProgress.textContent = `${total} / ${total} 문제`;
+      quizScore.textContent = `정답 ${quizState.correctCount}개`;
+      quizWrong.textContent = `오답 ${quizState.wrongItems.length}개`;
+      quizRemaining.textContent = "남은 문제 0개";
+
+      if (quizState.wrongItems.length) {
+        resultCopy.textContent = `틀린 단어 ${quizState.wrongItems.length}개를 다시 모아 복습할 수 있어.`;
+        wrongWordsWrap.style.display = "block";
+        wrongWords.innerHTML = quizState.wrongItems.map((item) => `
+          <li><strong>${item.word}</strong> - ${item.meaning}</li>
+        `).join("");
+        retryWrong.disabled = false;
+      } else {
+        resultCopy.textContent = "전부 맞혔어요. 바로 단어장으로 돌아가거나 처음부터 다시 섞어서 풀 수 있어.";
+        wrongWordsWrap.style.display = "none";
+        wrongWords.innerHTML = "";
+        retryWrong.disabled = true;
+      }
+    }
+
+    function renderQuiz() {
+      if (!quizState) {
+        resetQuiz();
+        return;
+      }
+
+      clearAutoAdvanceTimer();
+
+      renderViewSwitch();
+
+      if (quizState.completed) {
+        quizShell.style.display = "none";
+        quizResults.classList.add("active");
+        renderQuizResults();
+        return;
+      }
+
+      quizShell.style.display = "grid";
+      quizResults.classList.remove("active");
+      renderQuizQuestion(quizState.questions[quizState.currentIndex]);
+    }
+
+    function switchView(view) {
+      clearAutoAdvanceTimer();
+      currentView = view;
+      renderViewSwitch();
+
+      if (view === "quiz") {
+        if (!quizState) {
+          resetQuiz();
+          return;
+        }
+        renderQuiz();
+      }
+    }
+
+    function moveToNextQuestion() {
+      clearAutoAdvanceTimer();
+      if (!quizState || !quizState.answered) return;
+
+      if (quizState.currentIndex === quizState.questions.length - 1) {
+        quizState.completed = true;
+        renderQuiz();
+        return;
+      }
+
+      quizState.currentIndex += 1;
+      quizState.answered = false;
+      quizState.selectedAnswer = "";
+      renderQuiz();
+    }
+
+    function handleQuizAnswer(selectedOption) {
+      if (!quizState || quizState.completed || quizState.answered) return;
+
+      const question = quizState.questions[quizState.currentIndex];
+      const isCorrect = selectedOption === question.meaning;
+      quizState.answered = true;
+      quizState.selectedAnswer = selectedOption;
+
+      if (isCorrect) {
+        quizState.correctCount += 1;
+      } else {
+        quizState.wrongItems.push({
+          id: question.id,
+          word: question.word,
+          meaning: question.meaning,
+          hint: question.hint,
+          frequency: question.frequency
+        });
+      }
+
+      [...quizOptions.querySelectorAll(".quiz-option")].forEach((button) => {
+        const isSelected = button.dataset.option === selectedOption;
+        const isAnswer = button.dataset.option === question.meaning;
+
+        if (isAnswer) button.classList.add("correct");
+        if (isSelected && !isCorrect) button.classList.add("wrong");
+        button.disabled = true;
+      });
+
+      quizFeedback.className = `quiz-feedback show ${isCorrect ? "correct" : "wrong"}`;
+      quizFeedback.textContent = isCorrect
+        ? `정답! ${question.word}의 뜻은 "${question.meaning}" 맞아요.`
+        : `오답! ${question.word}의 뜻은 "${question.meaning}"예요.`;
+      quizScore.textContent = `정답 ${quizState.correctCount}개`;
+      quizWrong.textContent = `오답 ${quizState.wrongItems.length}개`;
+      quizNext.disabled = false;
+      quizNext.textContent = quizState.currentIndex === quizState.questions.length - 1 ? "결과 보기" : "다음 문제";
+      autoAdvanceTimer = window.setTimeout(() => {
+        moveToNextQuestion();
+      }, 1200);
+    }
+
     function showHome() {
+      clearAutoAdvanceTimer();
       homePanel.classList.add("active");
       wordbookPanel.classList.remove("active");
     }
@@ -1079,25 +1730,52 @@
     function showWordbook() {
       homePanel.classList.remove("active");
       wordbookPanel.classList.add("active");
-      renderDays();
+      renderDayOptions();
       renderWordList();
+      renderViewSwitch();
+      resetQuiz();
     }
 
     openWordbook.addEventListener("click", showWordbook);
     goHome.addEventListener("click", showHome);
 
-    dayGrid.addEventListener("click", (event) => {
-      const button = event.target.closest(".day-btn");
-      if (!button) return;
-      currentDay = Number(button.dataset.day);
-      renderDays();
+    daySelect.addEventListener("change", (event) => {
+      currentDay = Number(event.target.value);
       renderWordList();
+      resetQuiz();
     });
 
     wordList.addEventListener("click", (event) => {
       const toggle = event.target.closest(".wordbook-toggle");
       if (!toggle) return;
       toggle.closest(".wordbook-item").classList.toggle("open");
+    });
+
+    viewSwitch.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-view]");
+      if (!button) return;
+      switchView(button.dataset.view);
+    });
+
+    quizOptions.addEventListener("click", (event) => {
+      const button = event.target.closest(".quiz-option");
+      if (!button) return;
+      handleQuizAnswer(button.dataset.option);
+    });
+
+    quizNext.addEventListener("click", moveToNextQuestion);
+
+    quizReset.addEventListener("click", () => {
+      resetQuiz();
+    });
+
+    retryWrong.addEventListener("click", () => {
+      if (!quizState || !quizState.wrongItems.length) return;
+      resetQuiz(quizState.wrongItems, getDayWords(currentDay));
+    });
+
+    backToWordbook.addEventListener("click", () => {
+      switchView("wordbook");
     });
   </script>
 </body>
